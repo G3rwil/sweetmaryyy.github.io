@@ -974,7 +974,7 @@ form button[type='button']:hover {
                         placeholder="Any additional requests?"
                     ></textarea>
                 </div>
-                <button type="button" onclick="submitOrder()">Place Order</button>
+                <button type="submit">Place Order</button>
             </form>
         </div>
     </div>
@@ -1771,80 +1771,93 @@ function renderProducts(productsToRender = products) {
         }
 
 
-        function submitOrder() {
-            if (!validateForm()) {
-                return;
-            }
+        async function submitOrder() {
+    if (!validateForm()) {
+        return;
+    }
 
-            const selectedItems = products.filter(product => cart[product.id] > 0).map(product => ({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: cart[product.id]
-            }));
+    const selectedItems = products.filter(product => cart[product.id] > 0).map(product => ({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: cart[product.id]
+    }));
 
-            const subTotalAmount = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const finalTotalAmount = subTotalAmount + deliveryFee;
+    const subTotalAmount = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const finalTotalAmount = subTotalAmount + deliveryFee;
 
-            const orderType = document.getElementById('orderType').value;
+    const orderType = document.getElementById('orderType').value;
 
-            var formData = {
-                fullName: document.getElementById('fullName').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                address: document.getElementById('address').value.trim(),
-                contactNumber: document.getElementById('contactNumber').value.trim(),
-                orderType: orderType,
-               shippingAddress: orderType === 'delivery' ? document.getElementById('shippingAddressSelect').value.trim() : 'N/A (Pickup)', // <--- CHANGED TO shippingAddressSelect
-                pickupLocation: orderType === 'pickup' ? document.getElementById('pickupLocation').value.trim() : 'N/A (Delivery)',
-                paymentMethod: document.getElementById('paymentMethod').value,
-                remarks: document.getElementById('remarks').value.trim(),
-                deliveryDate: orderType === 'delivery' && selectedDeliveryDate ? selectedDeliveryDate.toLocaleDateString('en-US') : 'N/A (Pickup)',
-                deliveryTime: orderType === 'delivery' && selectedDeliveryTime ? selectedDeliveryTime : 'N/A (Pickup)',
-                orderedItems: JSON.stringify(selectedItems),
-                subTotalAmount: subTotalAmount,
-                deliveryFee: deliveryFee,
-                totalAmount: finalTotalAmount
-            };
+    const formData = {
+        fullName: document.getElementById('fullName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        contactNumber: document.getElementById('contactNumber').value.trim(),
+        orderType: orderType,
+        shippingAddress: orderType === 'delivery' ? document.getElementById('shippingAddressSelect').value.trim() : 'N/A (Pickup)',
+        pickupLocation: orderType === 'pickup' ? document.getElementById('pickupLocation').value.trim() : 'N/A (Delivery)',
+        paymentMethod: document.getElementById('paymentMethod').value,
+        remarks: document.getElementById('remarks').value.trim(),
+        deliveryDate: orderType === 'delivery' && selectedDeliveryDate ? selectedDeliveryDate.toLocaleDateString('en-US') : 'N/A (Pickup)',
+        deliveryTime: orderType === 'delivery' && selectedDeliveryTime ? selectedDeliveryTime : 'N/A (Pickup)',
+        orderedItems: JSON.stringify(selectedItems),
+        subTotalAmount: subTotalAmount,
+        deliveryFee: deliveryFee,
+        totalAmount: finalTotalAmount
+    };
 
-            Swal.fire({
-                title: 'Placing Order...',
-                text: 'Please wait while we process your order.',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            // Check if running in Apps Script environment
-            if (typeof google === 'undefined' || typeof google.script === 'undefined') {
-                console.warn('google.script.run is not available. Simulating success handler.');
-                setTimeout(() => {
-                    Swal.close();
-                    showSuccessMessage('Order simulated successfully!', formData.paymentMethod, formData.orderType);
-                }, 2000);
-                return;
-            }
-
-            google.script
-                .run
-                .withSuccessHandler(function (response) {
-                    Swal.close();
-                    showSuccessMessage(response, formData.paymentMethod, formData.orderType);
-                })
-                .withFailureHandler(function (error) {
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Order Failed!',
-                        text: 'There was an error submitting your order: ' + error.message,
-                        confirmButtonText: 'OK',
-                        customClass: {
-                            confirmButton: 'swal-button'
-                        }
-                    });
-                })
-                .submitOrder(formData);
+    Swal.fire({
+        title: 'Placing Order...',
+        text: 'Please wait while we process your order.',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
         }
+    });
+
+    try {
+        // This is the URL you provided at the end of your snippet
+        const response = await fetch("https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec", {
+            method: "POST",
+            // For sending JSON data, use JSON.stringify and set Content-Type header
+            // If your Apps Script expects form data, you might need to convert formData to FormData object
+            // For now, assuming your Apps Script can handle JSON in doPost.
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        });
+
+        // Your Apps Script might return plain text or JSON
+        const resultText = await response.text(); // Read as text first to inspect
+        let result;
+        try {
+            result = JSON.parse(resultText); // Try parsing as JSON
+        } catch (e) {
+            result = resultText; // If not JSON, use plain text
+        }
+
+
+        if (!response.ok) {
+            throw new Error(result.message || `Server responded with status ${response.status}: ${resultText}`);
+        }
+
+        Swal.close();
+        showSuccessMessage(result, formData.paymentMethod, formData.orderType);
+
+    } catch (error) {
+        Swal.close();
+        Swal.fire({
+            icon: 'error',
+            title: 'Order Failed!',
+            text: 'There was an error submitting your order: ' + error.message,
+            confirmButtonText: 'OK',
+            customClass: {
+                confirmButton: 'swal-button'
+            }
+        });
+    }
+}
 
         function showSuccessMessage(response, paymentMethod, orderType) {
             let paymentInstructionsHTML = '';
@@ -1950,40 +1963,29 @@ Swal.fire({
             renderProducts(); // Re-render products to reset quantity displays
         }
         // --- Delivery Locations Loading ---
-function loadDeliveryLocations() {
-    // Simulate google.script.run for local testing
-    if (typeof google === 'undefined' || typeof google.script === 'undefined') {
-        console.warn('google.script.run is not available for delivery locations. Using dummy data.');
-        deliveryLocations = [
-            { location: 'LAGUNA', fee: 50.00 },
-            { location: 'ALABANG', fee: 100.00 },
-            { location: 'MAKATI', fee: 150.00 },
-            { location: 'QUEZON CITY', fee: 180.00 },
-            { location: 'TAGUIG', fee: 120.00 }
-        ];
-        populateDeliveryLocationsDropdown();
-        return;
-    }
+async function loadDeliveryLocations() {
+    const deliveryLocationsApiUrl = 'https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec'; // Add action parameter
 
-    google.script.run
-        .withSuccessHandler(function(data) {
-            deliveryLocations = data;
-            populateDeliveryLocationsDropdown();
-        })
-        .withFailureHandler(function(error) {
-            console.error('Failed to load delivery locations:', error.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Failed to Load Delivery Areas',
-                text: 'There was an error fetching delivery location data. Please try again later. Error: ' + error.message,
-                confirmButtonText: 'OK',
-                customClass: { confirmButton: 'swal-button' }
-            });
-            // Fallback to empty if data cannot be loaded
-            deliveryLocations = [];
-            populateDeliveryLocationsDropdown();
-        })
-        .getDeliveryLocations(); // Call the Apps Script function
+    try {
+        const response = await fetch(deliveryLocationsApiUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        deliveryLocations = data;
+        populateDeliveryLocationsDropdown();
+    } catch (error) {
+        console.error('Failed to load delivery locations:', error.message);
+        Swal.fire({
+            icon: 'error',
+            title: 'Failed to Load Delivery Areas',
+            text: 'There was an error fetching delivery location data. Please try again later. Error: ' + error.message,
+            confirmButtonText: 'OK',
+            customClass: { confirmButton: 'swal-button' }
+        });
+        deliveryLocations = []; // Fallback to empty if data cannot be loaded
+        populateDeliveryLocationsDropdown();
+    }
 }
 
 // --- Populate Delivery Locations Dropdown ---
