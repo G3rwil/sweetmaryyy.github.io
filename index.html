@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sweet Mary's Order Form</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-        rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweet Mary's Order Form</title>
+
+  <!-- Font and Style -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
 :root {
     --primary-color: #ff6f61; /* A vibrant, sweet red/orange */
     --secondary-color: #ffc107; /* A warm yellow/gold */
@@ -2019,24 +2017,22 @@ function handleDeliveryLocationChange() {
     document.getElementById('deliveryDetails').classList.remove('error');
 }
 const scriptURL = "https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec";
+    const form = document.getElementById("orderForm");
 
-const form = document.getElementById("orderForm");
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const formData = new FormData(form);
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-
-  fetch(scriptURL, { method: "POST", body: formData })
-    .then((response) => {
-      Swal.fire("Success!", "Order submitted.", "success");
-      form.reset();
-    })
-    .catch((error) => {
-      Swal.fire("Oops!", "Something went wrong.", "error");
-      console.error("Error!", error.message);
+      fetch(scriptURL, { method: "POST", body: formData })
+        .then(response => {
+          Swal.fire("Success!", "Order submitted.", "success");
+          form.reset();
+        })
+        .catch(error => {
+          Swal.fire("Oops!", "Something went wrong.", "error");
+          console.error("Error!", error.message);
+        });
     });
-});
 
     </script>
 </body>
