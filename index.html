@@ -1821,25 +1821,21 @@
          * @param {HTMLElement} element The input element to mark.
          * @param {string} message The error message to display.
          */
-function markAsInvalid(element, message) {
-    element.classList.add('error');
-    let errorSpan = element.nextElementSibling; // Check for existing error span
-    if (errorSpan && errorSpan.classList.contains('error-message')) {
-        errorSpan.textContent = message;
-    } else {
-        errorSpan = document.createElement('span');
-        errorSpan.classList.add('error-message');
-        // FIX IS HERE:
-        errorSpan.style.color = getComputedStyle(document.documentElement).getPropertyValue('--error-color');
-        // If you know the color is just 'red' or a specific hex, you can use:
-        // errorSpan.style.color = 'red'; 
-        // errorSpan.style.color = '#FF0000'; 
-        errorSpan.style.fontSize = '0.85em';
-        errorSpan.style.marginTop = '5px';
-        errorSpan.textContent = message;
-        element.parentNode.insertBefore(errorSpan, element.nextSibling);
-    }
-}
+        function markAsInvalid(element, message) {
+            element.classList.add('error');
+            let errorSpan = element.nextElementSibling; // Check for existing error span
+            if (errorSpan && errorSpan.classList.contains('error-message')) {
+                errorSpan.textContent = message;
+            } else {
+                errorSpan = document.createElement('span');
+                errorSpan.classList.add('error-message');
+                errorSpan.style.color = var(--error-color);
+                errorSpan.style.fontSize = '0.85em';
+                errorSpan.style.marginTop = '5px';
+                errorSpan.textContent = message;
+                element.parentNode.insertBefore(errorSpan, element.nextSibling);
+            }
+        }
 
         /**
          * Clears validation error for a specific element.
