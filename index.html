@@ -1,519 +1,490 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sweet Mary's Order Form</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Mary's</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <style>
+        /* Variables */
         :root {
-            --primary-color: #ff6f61; /* A vibrant, sweet red/orange */
-            --secondary-color: #ffc107; /* A warm yellow/gold */
-            --accent-color: #4caf50; /* A pleasant green for success/available */
+            --primary-color: #FF69B4; /* Pink */
+            --secondary-color: #FFDAB9; /* Peach */
+            --accent-color: #FFB6C1; /* Light Pink */
+            --background-color: #FFF0F5; /* Lavender Blush */
             --text-dark: #333;
             --text-light: #666;
-            --bg-light: #f9f9f9;
             --border-color: #ddd;
-            --card-bg: #fff;
-            --error-color: #f44336;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            --header-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        * {
-            box-sizing: border-box;
+        /* General Styles */
+        body {
+            font-family: 'Quicksand', sans-serif;
             margin: 0;
             padding: 0;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
+            background-color: var(--background-color);
             color: var(--text-dark);
-            background-color: var(--bg-light);
-            padding: 20px;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 20px auto;
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
+            padding: 0 15px;
+            flex-grow: 1;
         }
 
-        .logo-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-section img {
-            max-width: 250px;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        h2 {
-            text-align: center;
+        h1, h2, h3, h4 {
+            font-family: 'Pacifico', cursive;
             color: var(--primary-color);
-            margin-bottom: 25px;
-            font-size: 2.2em;
-            letter-spacing: 1px;
-        }
-
-        .section-title {
-            font-size: 1.8em;
-            color: var(--secondary-color);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-top: 40px;
-            margin-bottom: 25px;
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        /* --- Tabs for Menu / Order Here --- */
+        h1 { font-size: 2.5em; }
+        h2 { font-size: 2em; }
+        h3 { font-size: 1.5em; }
+        h4 { font-size: 1.2em; }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e05c9a; /* Darker pink */
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea,
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1em;
+        }
+
+        input.error,
+        select.error,
+        textarea.error {
+            border-color: red;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+        }
+
+        .form-group.error .form-label {
+            color: red;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: var(--header-shadow);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Pacifico', cursive;
+            font-size: 3em;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Main Navigation Tabs */
         .main-tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
-            gap: 15px;
-            flex-wrap: wrap;
+            margin-top: 20px;
+            border-bottom: 2px solid var(--accent-color);
         }
 
-        .main-tabs button {
-            background-color: #eee;
-            border: 1px solid var(--border-color);
-            padding: 12px 25px;
+        .main-tabs .tab-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: none;
+            padding: 10px 20px;
             cursor: pointer;
             font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 8px;
+            font-weight: bold;
             transition: all 0.3s ease;
-            color: var(--text-dark);
-            flex-grow: 1;
-            max-width: 200px;
+            border-bottom: 2px solid transparent;
         }
 
-        .main-tabs button:hover {
-            background-color: var(--secondary-color);
-            color: var(--card-bg);
-            border-color: var(--secondary-color);
+        .main-tabs .tab-button:hover {
+            color: #e05c9a;
+            border-bottom-color: #e05c9a;
         }
 
-        .main-tabs button.active {
+        .main-tabs .tab-button.active {
             background-color: var(--primary-color);
             color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px 5px 0 0;
+            border-bottom-color: var(--primary-color);
         }
 
         .tab-content {
-            display: none; /* Hidden by default */
+            display: none;
+            padding: 20px 0;
         }
 
         .tab-content.active {
-            display: block; /* Shown when active */
+            display: block;
         }
 
-        /* --- Menu Gallery --- */
-        .menu-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .menu-gallery img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            width: clamp(280px, 45vw, 450px); /* Responsive image size */
-        }
-
-        .menu-gallery img:hover {
-            transform: translateY(-5px);
-        }
-
-        /* --- Category Tabs --- */
-        .category-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .category-tabs button {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            padding: 8px 18px;
-            cursor: pointer;
-            font-size: 0.95em;
-            font-weight: 500;
-            border-radius: 20px;
-            transition: all 0.2s ease;
-            color: var(--text-dark);
-        }
-
-        .category-tabs button:hover {
-            background-color: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
-        }
-
-        .category-tabs button.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        /* --- Product Catalog --- */
-        .product-catalog {
+        /* Menu Tab Content */
+        #menuTabContent .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
         }
 
-        .product-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+        #menuTabContent .gallery-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+            transition: transform 0.2s ease;
         }
 
-        .product-card:hover {
+        #menuTabContent .gallery-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
         }
 
-        .product-img {
+        #menuTabContent .gallery-item img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             border-bottom: 1px solid var(--border-color);
         }
 
-        .product-info {
+        #menuTabContent .gallery-item-info {
+            padding: 15px;
+        }
+
+        #menuTabContent .gallery-item-info h3 {
+            margin-top: 0;
+            color: var(--text-dark);
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        #menuTabContent .gallery-item-info p {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        /* Order Tab Content */
+        .order-section {
+            background-color: white;
             padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+
+        .category-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .category-tab-button {
+            background-color: var(--secondary-color);
+            color: var(--text-dark);
+            border: 1px solid var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab-button:hover {
+            background-color: var(--accent-color);
+        }
+
+        .category-tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .product-catalog {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 15px;
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
+            justify-content: space-between; /* Pushes button to bottom */
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+
+        .product-info {
+            padding: 0 15px;
         }
 
         .product-info h4 {
-            font-size: 1.4em;
+            margin-top: 0;
             margin-bottom: 10px;
             color: var(--primary-color);
-            text-align: center;
-        }
-
-        .product-info strong {
-            display: block;
-            margin-top: 10px;
-            font-size: 1.1em;
-            color: var(--text-dark);
-            /* Added for centering */
-            text-align: center;
         }
 
         .product-info p {
-            font-size: 1.2em;
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-bottom: 10px;
-            /* Added for centering */
-            text-align: center;
+            margin: 5px 0;
+            color: var(--text-light);
+            font-weight: bold;
         }
 
         .quantity-control {
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-color);
+            align-items: center;
+            margin-top: 10px;
         }
 
         .quantity-control button {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            font-size: 1.5em;
+            background-color: var(--accent-color);
+            color: var(--text-dark);
+            border: 1px solid var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            line-height: 1; /* Ensures text is centered vertically */
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 0 8px;
+            transition: background-color 0.3s ease;
+            min-width: 30px; /* Ensure buttons are not too small */
+            text-align: center;
         }
 
         .quantity-control button:hover {
             background-color: var(--primary-color);
+            color: white;
         }
 
         .quantity-control span {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: var(--text-dark);
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
             min-width: 30px;
+            display: inline-block;
             text-align: center;
         }
 
         .product-status {
-            text-align: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-color);
+            margin-top: 10px;
         }
 
         .status-badge {
             display: inline-block;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
             font-size: 0.9em;
-            text-transform: uppercase;
         }
 
         .status-badge.out-of-stock {
-            background-color: #ffebee;
+            background-color: #fce4e4;
             color: #d32f2f;
-            border: 1px solid #d32f2f;
         }
 
         .status-badge.available {
             background-color: #e8f5e9;
             color: #388e3c;
-            border: 1px solid #388e3c;
         }
-
-        .status-badge.coming-soon {
+        
+        .status-badge.limited-stock {
             background-color: #fffde7;
             color: #fbc02d;
-            border: 1px solid #fbc02d;
         }
 
-        /* --- Cart Summary --- */
+        /* Cart Summary */
         .cart-summary {
-            background: var(--bg-light);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
+            background-color: white;
             padding: 20px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+            margin-top: 20px;
         }
 
         .cart-summary h3 {
-            text-align: center;
+            margin-top: 0;
             color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.6em;
         }
 
         #cartItemsList {
             list-style: none;
             padding: 0;
-            margin-bottom: 20px;
-            max-height: 250px; /* Limit height */
-            overflow-y: auto; /* Enable scrolling */
-            border-bottom: 1px dashed var(--border-color);
-            padding-bottom: 15px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
         }
 
         #cartItemsList li {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
-            border-bottom: 1px dotted #eee;
-            font-size: 0.95em;
+            border-bottom: 1px dashed var(--border-color);
         }
 
         #cartItemsList li:last-child {
             border-bottom: none;
         }
 
-        .cart-subtotal-item,
-        .delivery-fee-item {
-            font-weight: 600;
+        .cart-subtotal-item, .delivery-fee-item {
+            font-weight: bold;
             color: var(--text-dark);
-            padding: 10px 0;
+            padding-top: 10px !important;
             border-top: 1px solid var(--border-color);
             margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.1em;
         }
+        .delivery-fee-item {
+            border-bottom: 1px dashed var(--border-color) !important;
+        }
+
 
         .cart-total {
             display: flex;
             justify-content: space-between;
-            font-size: 1.5em;
-            font-weight: 700;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 15px;
             color: var(--primary-color);
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
             margin-top: 20px;
-            padding-top: 15px;
-            border-top: 2px solid var(--secondary-color);
+            gap: 10px;
         }
 
-        .proceed-checkout-button {
-            display: block;
-            width: fit-content; /* Adjust width to content */
-            margin: 20px auto 0; /* Center the button */
-            padding: 15px 30px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
+        .cart-actions button {
+            flex: 1;
+            padding: 12px 20px;
+        }
+        .cart-actions button:last-child {
+            background-color: #6c757d; /* Grey for Clear Cart */
+        }
+        .cart-actions button:last-child:hover {
+            background-color: #5a6268;
+        }
+
+        /* Order Form (Checkout) */
+        #orderForm {
+            display: none; /* Hidden by default */
+            margin-top: 20px;
+        }
+
+        .form-section {
+            background-color: white;
+            padding: 25px;
             border-radius: 8px;
-            font-size: 1.2em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+        .form-section.error {
+            border: 2px solid red;
         }
 
-        .proceed-checkout-button:hover {
-            background-color: #388e3c; /* Darker green */
-            transform: translateY(-2px);
-        }
-
-        /* --- Form Styling --- */
-        form {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-group {
+        .form-section h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 10px;
             margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 1em;
-        }
-
-        .required-star {
-            color: var(--primary-color);
-            font-size: 1.1em;
-            margin-left: 3px;
-        }
-
-        .form-group input[type='text'],
-        .form-group input[type='email'],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1em;
-            color: var(--text-dark);
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .form-group input[type='text']:focus,
-        .form-group input[type='email']:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.2);
-            outline: none;
-        }
-
-        .form-group input.error,
-        .form-group select.error,
-        .date-picker-section.error,
-        .time-picker-section.error {
-            border-color: var(--error-color) !important;
-            box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.2) !important;
-        }
-
-        .form-group small {
-            display: block;
-            margin-top: 5px;
-            color: var(--text-light);
-            font-size: 0.85em;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        /* --- Date & Time Picker --- */
-        .date-time-picker-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            background-color: var(--bg-light);
-            display: none; /* Hidden by default, shown for delivery */
-        }
-
-        .date-picker-section,
-        .time-picker-section {
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .date-input-group {
-            position: relative;
+        .form-group {
             margin-bottom: 15px;
         }
 
-        .date-input-group input {
-            padding-right: 40px; /* Space for icon */
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-dark);
         }
 
-        .calendar-icon {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 1.2em;
+        /* Order Type Specific Sections */
+        #deliveryDetails, #pickupDetails {
+            display: none; /* Controlled by JS */
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 20px;
         }
 
-        .calendar-controls {
-            background-color: #fcfcfc;
-            border: 1px solid #eee;
-            border-radius: 8px;
+        #selectedDeliveryFeeDisplay {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 10px;
+            text-align: right;
+            display: none; /* Hidden by default, shown when fee is applied */
+        }
+
+        /* Date Picker */
+        .date-time-picker-container {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column for small screens */
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .date-time-picker-container {
+                grid-template-columns: 1fr 1fr; /* Two columns for larger screens */
+            }
+        }
+        .date-picker-section, .time-picker-section {
+            background-color: #f9f9f9;
             padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .date-picker-section.error, .time-picker-section.error {
+            border: 2px solid red;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
         }
 
         .calendar-header {
@@ -521,330 +492,298 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 15px;
-            color: var(--primary-color);
         }
 
         .calendar-header button {
-            background: none;
+            background-color: var(--accent-color);
+            color: var(--text-dark);
             border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: var(--secondary-color);
-            padding: 5px 10px;
+            padding: 8px 12px;
             border-radius: 5px;
-            transition: background-color 0.2s ease;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         .calendar-header button:hover {
-            background-color: #f0f0f0;
+            background-color: var(--primary-color);
+            color: white;
         }
 
-        .calendar-header h4 {
-            margin: 0;
-            font-size: 1.3em;
+        #monthYear {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
-        .calendar-weekdays {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            text-align: center;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 10px;
-            font-size: 0.85em;
-        }
-
-        .calendar-days {
+        .calendar-weekdays, .calendar-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 5px;
+        }
+
+        .calendar-weekdays div {
+            font-weight: bold;
+            color: var(--text-light);
             text-align: center;
         }
 
         .calendar-days div {
-            padding: 10px 5px;
+            padding: 10px;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.2s ease, color 0.2s ease;
-            font-size: 0.95em;
+            transition: background-color 0.2s ease;
+            text-align: center;
+            background-color: white;
+            border: 1px solid var(--border-color);
         }
 
         .calendar-days div:hover:not(.past-date):not(.other-month) {
-            background-color: var(--secondary-color);
-            color: white;
+            background-color: var(--accent-color);
         }
 
-        .calendar-days div.past-date {
-            color: #ccc;
+        .calendar-days .past-date,
+        .calendar-days .other-month {
+            background-color: #e9ecef;
+            color: #adb5bd;
             cursor: not-allowed;
-            background-color: #f5f5f5;
+            border-color: #dee2e6;
         }
 
-        .calendar-days div.current-day {
+        .calendar-days .current-day {
             border: 2px solid var(--primary-color);
-            font-weight: 700;
+            font-weight: bold;
+            color: var(--primary-color);
         }
 
-        .calendar-days div.selected-date {
+        .calendar-days .selected-date {
             background-color: var(--primary-color);
             color: white;
-            font-weight: 700;
+            font-weight: bold;
+            border-color: var(--primary-color);
         }
-
-        .time-header {
+        
+        #deliveryDate {
             text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .time-header h4 {
-            font-size: 1.3em;
+            font-weight: bold;
+            margin-top: 15px;
             color: var(--primary-color);
-            margin-bottom: 5px;
+            border: 1px dashed var(--primary-color);
+            background-color: var(--background-color);
+            cursor: pointer; /* Indicate it's clickable (or its section is) */
+            padding: 10px;
         }
 
-        .time-zone {
-            font-size: 0.9em;
-            color: var(--text-light);
+        /* Time Slots */
+        .time-slots-container {
+            margin-top: 15px;
         }
 
-        .time-slots {
+        #selectedDateDisplay {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #timeSlots {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 10px;
-            max-height: 250px;
-            overflow-y: auto;
-            padding-right: 10px; /* for scrollbar */
         }
 
         .time-slot {
-            padding: 12px 15px;
+            padding: 10px;
+            background-color: white;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 5px;
             text-align: center;
             cursor: pointer;
-            background-color: #fefefe;
             transition: background-color 0.2s ease, border-color 0.2s ease;
-            font-weight: 500;
-            font-size: 0.95em;
         }
 
         .time-slot:hover:not(.unavailable) {
-            background-color: var(--secondary-color);
-            color: white;
-            border-color: var(--secondary-color);
-        }
-
-        .time-slot.unavailable {
-            background-color: #f5f5f5;
-            color: #ccc;
-            border-color: #eee;
-            cursor: not-allowed;
-            text-decoration: line-through;
+            background-color: var(--accent-color);
+            border-color: var(--primary-color);
         }
 
         .time-slot.selected-time {
             background-color: var(--primary-color);
             color: white;
+            font-weight: bold;
             border-color: var(--primary-color);
-            font-weight: 700;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        form button[type='button'] {
-            display: block;
-            width: 100%;
-            padding: 15px;
+        .time-slot.unavailable {
+            background-color: #e9ecef;
+            color: #adb5bd;
+            text-decoration: line-through;
+            cursor: not-allowed;
+            border-color: #dee2e6;
+        }
+
+        #currentTimeZone {
+            font-size: 0.9em;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: 10px;
+        }
+
+
+        /* Confirmation and Action Buttons */
+        .submit-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .submit-buttons button {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.1em;
+        }
+
+        .submit-buttons button.cancel {
+            background-color: #6c757d;
+        }
+
+        .submit-buttons button.cancel:hover {
+            background-color: #5a6268;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding: 20px;
             background-color: var(--primary-color);
             color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.3em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 30px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-size: 0.9em;
         }
 
-        form button[type='button']:hover {
-            background-color: #e55c50; /* Darker red */
-            transform: translateY(-2px);
-        }
-
-        /* SweetAlert Custom Button Styling */
+        /* SweetAlert2 Customizations */
         .swal-button {
             background-color: var(--primary-color) !important;
             color: white !important;
             border-radius: 5px !important;
             font-size: 1em !important;
-            padding: 8px 20px !important;
-            transition: background-color 0.2s ease;
+            padding: 10px 20px !important;
+        }
+        .swal2-title {
+            color: var(--primary-color) !important;
+        }
+        .swal2-html-container {
+            color: var(--text-dark) !important;
         }
 
-        .swal-button:hover {
-            background-color: #e55c50 !important;
-        }
-
-        /* Payment Instructions in SweetAlert */
         .payment-instructions {
-            margin-top: 20px;
-            padding: 15px;
             border: 1px solid;
+            padding: 15px;
+            margin-top: 20px;
             border-radius: 8px;
             text-align: left;
-            font-size: 0.9em;
+            font-size: 0.95em;
         }
-
         .payment-instructions h4 {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: bold;
             margin-top: 0;
             margin-bottom: 10px;
-            font-size: 1.2em;
+            text-align: left;
         }
-
         .payment-instructions p {
             margin-bottom: 5px;
+            line-height: 1.4;
         }
-
         .payment-instructions img {
-            max-width: 180px;
+            max-width: 150px;
             height: auto;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
             border-radius: 5px;
-            padding: 5px;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
-
-        /* Responsive Design */
-        @media (min-width: 768px) {
-            .container {
-                grid-template-columns: 1fr; /* Single column layout for larger screens */
-            }
-
-            .date-time-picker-container {
-                grid-template-columns: 1fr 1fr; /* Two columns for date and time */
-            }
+        .payment-instructions a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
         }
-
-        @media (max-width: 767px) {
-            body {
-                padding: 15px;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            h2 {
-                font-size: 1.8em;
-            }
-
-            .section-title {
-                font-size: 1.5em;
-            }
-
-            .product-catalog {
-                grid-template-columns: 1fr; /* Single column on small screens */
-            }
-
-            .product-info h4 {
-                font-size: 1.2em;
-            }
-
-            .quantity-control button {
-                width: 30px;
-                height: 30px;
-                font-size: 1.3em;
-            }
-
-            .quantity-control span {
-                font-size: 1.1em;
-            }
-
-            .time-slots {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            }
-
-            form button[type='button'] {
-                font-size: 1.1em;
-                padding: 12px;
-            }
+        .payment-instructions a:hover {
+            text-decoration: underline;
         }
-        /* For the red asterisk */
-        .required-star {
-            color: red;
-        }
-        .form-group {
-            margin-bottom: 15px; /* Spacing between form fields */
-        }
-
-        .form-group label {
-            display: block; /* Make label take its own line */
-            margin-bottom: 5px; /* Space between label and input */
-            font-weight: bold; /* Make labels stand out */
-            color: var(--text-dark); /* Assuming you have a CSS variable for dark text */
-        }
-
-        /* Styling for the dropdown itself */
-        #shippingAddressSelect {
-            width: 100%; /* Take full width of its container */
-            padding: 10px 15px; /* Padding inside the dropdown */
-            border: 1px solid #ccc; /* Default border color */
-            border-radius: 5px; /* Slightly rounded corners */
-            font-size: 1em; /* Readable font size */
-            box-sizing: border-box; /* Include padding and border in the element's total width and height */
-            -webkit-appearance: none; /* Remove default browser dropdown arrow on WebKit browsers */
-            -moz-appearance: none; /* Remove default browser dropdown arrow on Mozilla browsers */
-            appearance: none; /* Remove default browser dropdown arrow */
-            background-color: #fff; /* White background */
-            background-image: url('data:image/svg+xml;utf8,<svg fill="#666" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom dropdown arrow */
-            background-repeat: no-repeat;
-            background-position: right 10px center; /* Position the arrow */
-            cursor: pointer;
-        }
-
-        /* Red border for error/required state (matching your image) */
-        /* This is typically added by JavaScript when a field is invalid */
-        #shippingAddressSelect.error,
-        #shippingAddressSelect:required:invalid, /* For initial load if required and no selection */
-        #shippingAddressSelect:focus { /* Optional: Red border on focus as well, or a different color */
-            border-color: #e74c3c; /* Red color */
-            box-shadow: 0 0 0 1px #e74c3c; /* Optional: small red glow */
-            outline: none; /* Remove default focus outline */
-        }
-
-        /* Style for the delivery fee display text */
-        #selectedDeliveryFeeDisplay {
-            margin-top: 8px; /* Space above the fee text */
-            font-size: 0.9em; /* Slightly smaller font than input */
-            color: var(--text-muted, #555); /* Lighter text color, use CSS variable if defined */
-            font-weight: bold; /* Make it bold as in your image */
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .logo { font-size: 2.5em; }
+            .main-tabs { flex-direction: column; }
+            .main-tabs .tab-button { width: 100%; margin-bottom: 5px; }
+            .product-catalog { grid-template-columns: 1fr; }
+            .cart-actions { flex-direction: column; }
+            .submit-buttons { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-section">
-            <img src="https://i.postimg.cc/mZXr21dt/mary-logo.png" alt="Sweet Mary's Logo" />
-        </div>
-        <h2>PLACE YOUR ORDER</h2>
+    <header>
+        <a href="#" class="logo">Sweet Mary's</a>
+        <nav class="main-tabs">
+            <button class="tab-button active" onclick="showMainTab('menu')">Browse Products</button>
+            <button class="tab-button" onclick="showMainTab('order')">Order Here</button>
+        </nav>
+    </header>
 
-        <div class="main-tabs">
-            <button class="tab-button active" onclick="showMainTab('menu')">MENU</button>
-            <button class="tab-button" onclick="showMainTab('order')">ORDER HERE</button>
-        </div>
-
-        <div id="menuTabContent" class="tab-content active">
-            <h3 class="section-title">Our Delicious Menu</h3>
-            <div class="menu-gallery">
-                <img src="https://i.ibb.co/cc1q6VMS/4.png" alt="Cookies Menu">
-                <img src="https://i.ibb.co/ccXK7YcW/6.png" alt="Mini Menu">
-                <img src="https://i.ibb.co/rGBLPCk0/3.png" alt="Chocolate Crinkles & Loafs Menu">
-                <img src="https://i.ibb.co/rG88CqRk/5.png" alt="Muffin Menu">
-
+    <main class="container">
+        <section id="menuTabContent" class="tab-content active order-section">
+            <h2>Our Delicious Treats</h2>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/5g6vgY8L/image.png" alt="CRINKLES">
+                    <div class="gallery-item-info">
+                        <h3>CRINKLES</h3>
+                        <p>Soft, chewy, and perfectly chocolatey!</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/TxPktrs6/image.png" alt="COOKIES">
+                    <div class="gallery-item-info">
+                        <h3>COOKIES</h3>
+                        <p>Freshly baked with a variety of flavors.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/j1VXkqs/image.png" alt="MINI COOKIES">
+                    <div class="gallery-item-info">
+                        <h3>MINI COOKIES</h3>
+                        <p>Bite-sized goodness for any craving.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/fVD4LTYN/image.png" alt="MUFFIN">
+                    <div class="gallery-item-info">
+                        <h3>MUFFIN</h3>
+                        <p>Perfectly moist and delightful.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/bM1LcPHk/image.png" alt="BANANA CAKE">
+                    <div class="gallery-item-info">
+                        <h3>BANANA CAKE</h3>
+                        <p>Homemade taste, simply irresistible.</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://i.ibb.co/tThcZPnP/image.png" alt="BENTO CHEESE CAKE">
+                    <div class="gallery-item-info">
+                        <h3>BENTO CHEESE CAKE</h3>
+                        <p>A personal delight in every bite.</p>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div id="orderTabContent" class="tab-content">
-            <h3 class="section-title">Select Your Items</h3>
+        <section id="orderTabContent" class="tab-content">
+            <h2>Place Your Order</h2>
 
             <div class="category-tabs" id="categoryTabs">
                 </div>
@@ -853,128 +792,120 @@
                 </div>
 
             <div class="cart-summary">
-                <h3>Your Cart 🛒</h3>
+                <h3>Your Cart</h3>
                 <ul id="cartItemsList">
                     </ul>
                 <div class="cart-total">
                     <span>Total:</span>
                     <span id="totalAmount">₱0.00</span>
                 </div>
-                <button type="button" class="proceed-checkout-button" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                <div class="cart-actions">
+                    <button type="button" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                    <button type="button" onclick="clearCart()">Clear Cart</button>
+                </div>
             </div>
 
-            <form id="order-form">
-                <h3 class="section-title">Your Details</h3>
-                <div class="form-group">
-                    <label for="fullName">Full Name <span class="required-star">*</span></label>
-                    <input type="text" id="fullName" required />
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address <span class="required-star">*</span></label>
-                    <input
-                        type="email"
-                        id="email"
-                        placeholder="example@gmail.com"
-                        required
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="address">Address <span class="required-star">*</span></label>
-                    <input type="text" id="address" required />
-                </div>
-                <div class="form-group">
-                    <label for="contactNumber">Contact Number <span class="required-star">*</span></label>
-                    <input
-                        type="text"
-                        id="contactNumber"
-                        maxlength="11"
-                        placeholder="11-digits number"
-                        required
-                    />
+            <form id="orderForm" class="order-form">
+                <div class="form-section">
+                    <h3>Customer Information</h3>
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name:</label>
+                        <input type="text" id="fullName" name="fullName" required oninput="toUpperCaseInput(event)">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactNumber" class="form-label">Contact Number:</label>
+                        <input type="tel" id="contactNumber" name="contactNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="form-label">Complete Address:</label>
+                        <input type="text" id="address" name="address" required oninput="toUpperCaseInput(event)">
+                    </div>
                 </div>
 
-                <h3 class="section-title">Order Type</h3>
-                <div class="form-group">
-                    <label for="orderType">Choose how to get your order: <span class="required-star">*</span></label>
-                    <select id="orderType" required onchange="toggleOrderType()">
-                        <option value="">SELECT</option>
-                        <option value="delivery">Delivery</option>
-                        <option value="pickup">Pickup</option>
-                        <option value="meetup">Meet Up</option>
-                    </select>
-                </div>
-
-                <div id="deliveryDetails" class="form-group" style="display: none;">
-                    <label for="shippingAddressSelect">Delivery Address <span class="required-star">*</span></label>
-                    <select id="shippingAddressSelect" required onchange="handleDeliveryLocationChange()">
-                        <option value="">Select a delivery location</option>
+                <div class="form-section">
+                    <h3>Order Type</h3>
+                    <div class="form-group">
+                        <label for="orderType" class="form-label">Select Order Type:</label>
+                        <select id="orderType" name="orderType" onchange="toggleOrderType()" required>
+                            <option value="">-- Select --</option>
+                            <option value="delivery">Delivery</option>
+                            <option value="pickup">Pickup</option>
                         </select>
-                    <div id="selectedDeliveryFeeDisplay" class="info-text"></div>
+                    </div>
+
+                    <div id="deliveryDetails" class="form-group">
+                        <label for="shippingAddressSelect" class="form-label">Delivery Location:</label>
+                        <select id="shippingAddressSelect" name="shippingAddress" onchange="handleDeliveryLocationChange()" required>
+                            <option value="">Select a delivery location</option>
+                            </select>
+                        <div id="selectedDeliveryFeeDisplay"></div>
+                    </div>
+
+                    <div id="pickupDetails" class="form-group">
+                        <label for="pickupLocation" class="form-label">Pickup Location:</label>
+                        <input type="text" id="pickupLocation" name="pickupLocation" value="Main Branch, Virac, Catanduanes" readonly>
+                    </div>
                 </div>
 
-                <div id="pickupDetails" class="form-group" style="display: none;">
-                    <label for="pickupLocation">Pickup Location</label>
-                    <input type="text" id="pickupLocation" value="1435 ARANVILLE SUBD BRGY SAN JOSE SAN PABLO CITY LAGUNA" readonly />
-                    <small>Please pick up your order at our designated location.</small>
-                </div>
-
-                <h3 class="section-title" id="deliveryDateTimeHeader" style="margin-top: 40px; display: none;">Delivery Date & Time</h3>
-                <div class="date-time-picker-container" style="display: none;">
-                    <div class="date-picker-section">
-                        <label for="deliveryDate">Delivery Date <span class="required-star">*</span></label>
-                        <div class="date-input-group">
-                            <input type="text" id="deliveryDate" placeholder="MM/DD/YYYY" readonly required />
-                            <span class="calendar-icon" onclick="document.getElementById('deliveryDate').click()">🗓️</span>
-                        </div>
-                        <div class="calendar-controls">
+                <div class="form-section date-time-picker-section">
+                    <h3 id="deliveryDateTimeHeader">Delivery Date & Time</h3>
+                    <div class="date-time-picker-container">
+                        <div class="date-picker-section">
+                            <h4>Select Date</h4>
                             <div class="calendar-header">
                                 <button type="button" onclick="changeMonth(-1)">&lt;</button>
-                                <h4 id="monthYear"></h4>
+                                <span id="monthYear"></span>
                                 <button type="button" onclick="changeMonth(1)">&gt;</button>
                             </div>
                             <div class="calendar-weekdays">
-                                <div>SUN</div>
-                                <div>MON</div>
-                                <div>TUE</div>
-                                <div>WED</div>
-                                <div>THU</div>
-                                <div>FRI</div>
-                                <div>SAT</div>
+                                <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
                             </div>
                             <div class="calendar-days" id="calendarDays">
-                            </div>
+                                </div>
+                            <input type="text" id="deliveryDate" name="deliveryDateDisplay" placeholder="No Date Selected" readonly required>
+                        </div>
+
+                        <div class="time-picker-section">
+                            <h4>Select Time Slot</h4>
+                            <div id="selectedDateDisplay">Select a Delivery Date</div>
+                            <div id="timeSlots">
+                                </div>
+                            <div id="currentTimeZone"></div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="time-picker-section">
-                        <label for="deliveryTime">Delivery Time <span class="required-star">*</span></label>
-                        <div class="time-header">
-                            <h4 id="selectedDateDisplay">Select a Delivery Date</h4>
-                            <span class="time-zone" id="currentTimeZone"></span>
-                        </div>
-                        <div class="time-slots" id="timeSlots">
-                        </div>
+                <div class="form-section">
+                    <h3>Payment Details</h3>
+                    <div class="form-group">
+                        <label for="paymentMethod" class="form-label">Payment Method:</label>
+                        <select id="paymentMethod" name="paymentMethod" required>
+                            <option value="">-- Select --</option>
+                            <option value="GCASH">GCASH</option>
+                            <option value="CASH">CASH on Delivery/Pickup</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="remarks" class="form-label">Remarks (Optional):</label>
+                        <textarea id="remarks" name="remarks" rows="3" placeholder="e.g., specific instructions, dedications"></textarea>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="paymentMethod">Payment Method <span class="required-star">*</span></label>
-                    <select id="paymentMethod" required>
-                        <option value="CASH">CASH</option>
-                        <option value="GCASH">GCASH</option>
-                    </select>
+                <div class="submit-buttons">
+                    <button type="button" onclick="submitOrder()">Place Order</button>
+                    <button type="button" class="cancel" onclick="resetForm()">Reset Form</button>
                 </div>
-                <div class="form-group">
-                    <label for="remarks"><strong>Remarks</strong> (e.g., delivery instructions, special requests)</label>
-                    <textarea
-                        id="remarks"
-                        placeholder="Any additional requests?"
-                    ></textarea>
-                </div>
-                <button type="submit">Place Order</button>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Sweet Mary's. All rights reserved.</p>
+    </footer>
 
     <script>
         // Global Variables
@@ -982,8 +913,6 @@
         let cart = {};
         let deliveryFee = 0;
         let deliveryLocations = []; // To store locations fetched from the sheet
-        let categories = {}; // Populated dynamically from fetched products
-
 
         // Date Picker Globals
         const months = [
@@ -1013,39 +942,39 @@
 
             // COOKIES
             { id: 'chocolateChip50g', name: 'CHOCOLATE CHIP (50G)', category: 'COOKIES', price: 80, image: 'https://i.ibb.co/TxPktrs6/image.png' },
-            { id: 'chocolateChip100g', name: 'CHOCOLATE CHIP (100G)', category: 'COOKIES', price: 150, image: 'https://i.ibb.co/TxPktrs6/image.png' },
+            { id: 'chocolateChip100g', name: 'CHOCOLATE CHIP (100G)', category: 'COOKIES', price: 150 },
             { id: 'chocoWalnut50g', name: 'CHOCO WALNUT (50G)', category: 'COOKIES', price: 85, image: 'https://i.ibb.co/sd1cLbLT/image.png' },
-            { id: 'chocoWalnut100g', name: 'CHOCO WALNUT (100G)', category: 'COOKIES', price: 160, image: 'https://i.ibb.co/sd1cLbLT/image.png' },
+            { id: 'chocoWalnut100g', name: 'CHOCO WALNUT (100G)', category: 'COOKIES', price: 160 },
             { id: 'nutellaChocoAlmond50g', name: 'NUTELLA CHOCO ALMOND (50G)', category: 'COOKIES', price: 90, image: 'https://i.ibb.co/RGsxDq2s/image.png' },
-            { id: 'nutellaChocoAlmond100g', name: 'NUTELLA CHOCO ALMOND (100G)', category: 'COOKIES', price: 170, image: 'https://i.ibb.co/RGsxDq2s/image.png' },
+            { id: 'nutellaChocoAlmond100g', name: 'NUTELLA CHOCO ALMOND (100G)', category: 'COOKIES', price: 170 },
             { id: 'smores50g', name: 'S\'MORES (50G)', category: 'COOKIES', price: 95, image: 'https://i.ibb.co/Y7n4CJtp/image.png' },
-            { id: 'smores100g', name: 'S\'MORES (100G)', category: 'COOKIES', price: 180, image: 'https://i.ibb.co/Y7n4CJtp/image.png' },
+            { id: 'smores100g', name: 'S\'MORES (100G)', category: 'COOKIES', price: 180 },
             { id: 'chocoBiscoff50g', name: 'CHOCO BISCOFF (50G)', category: 'COOKIES', price: 90, image: 'https://i.ibb.co/DHNKjJsp/image.png' },
-            { id: 'chocoBiscoff100g', name: 'CHOCO BISCOFF (100G)', category: 'COOKIES', price: 170, image: 'https://i.ibb.co/DHNKjJsp/image.png' },
+            { id: 'chocoBiscoff100g', name: 'CHOCO BISCOFF (100G)', category: 'COOKIES', price: 170 },
             { id: 'whiteChocoBiscoff50g', name: 'WHITE CHOCO BISCOFF (50G)', category: 'COOKIES', price: 90, image: 'https://i.ibb.co/nq6cRqv7/image.png' },
-            { id: 'whiteChocoBiscoff100g', name: 'WHITE CHOCO BISCOFF (100G)', category: 'COOKIES', price: 170, image: 'https://i.ibb.co/nq6cRqv7/image.png' },
+            { id: 'whiteChocoBiscoff100g', name: 'WHITE CHOCO BISCOFF (100G)', category: 'COOKIES', price: 170 },
             { id: 'matchaCream50g', name: 'MATCHA CREAM (50G)', category: 'COOKIES', price: 85, image: 'https://i.ibb.co/5hzyxkNL/image.png' },
-            { id: 'matchaCream100g', name: 'MATCHA CREAM (100G)', category: 'COOKIES', price: 160, image: 'https://i.ibb.co/5hzyxkNL/image.png' },
+            { id: 'matchaCream100g', name: 'MATCHA CREAM (100G)', category: 'COOKIES', price: 160 },
             { id: 'redVelvetCream50g', name: 'RED VELVET CREAM (50G)', category: 'COOKIES', price: 85, image: 'https://i.ibb.co/j9JstxX0/image.png' },
-            { id: 'redVelvetCream100g', name: 'RED VELVET CREAM (100G)', category: 'COOKIES', price: 160, image: 'https://i.ibb.co/j9JstxX0/image.png' },
+            { id: 'redVelvetCream100g', name: 'RED VELVET CREAM (100G)', category: 'COOKIES', price: 160 },
             { id: 'assorted6pcs50g', name: 'ASSORTED (6pcs - 50G)', category: 'COOKIES', price: 500, image: 'https://i.ibb.co/vCFVWsLs/image.png' },
-            { id: 'assorted6pcs100g', name: 'ASSORTED (6pcs - 100G)', category: 'COOKIES', price: 950, image: 'https://i.ibb.co/vCFVWsLs/image.png' },
-
+            { id: 'assorted6pcs100g', name: 'ASSORTED (6pcs - 100G)', category: 'COOKIES', price: 950 },
+            
             // MINI COOKIES
             { id: 'miniDarkCookies6pcs', name: 'DARK (6PCS)', category: 'MINI COOKIES', price: 150, image: 'https://i.ibb.co/j1VXkqs/image.png' },
-            { id: 'miniDarkCookies12pcs', name: 'DARK (12PCS)', category: 'MINI COOKIES', price: 300, image: 'https://i.ibb.co/j1VXkqs/image.png' },
+            { id: 'miniDarkCookies12pcs', name: 'DARK (12PCS)', category: 'MINI COOKIES', price: 300 },
             { id: 'miniChocoWalnutCookies6pcs', name: 'CHOCO WALNUT (6PCS)', category: 'MINI COOKIES', price: 150, image: 'https://i.ibb.co/wh6b8hFP/image.png' },
-            { id: 'miniChocoWalnutCookies12pcs', name: 'CHOCO WALNUT (12PCS)', category: 'MINI COOKIES', price: 300, image: 'https://i.ibb.co/wh6b8hFP/image.png' },
+            { id: 'miniChocoWalnutCookies12pcs', name: 'CHOCO WALNUT (12PCS)', category: 'MINI COOKIES', price: 300 },
             { id: 'miniSmoresCookies6pcs', name: 'S\'MORES (6PCS)', category: 'MINI COOKIES', price: 160, image: 'https://i.ibb.co/QzfTyRr/image.png' },
-            { id: 'miniSmoresCookies12pcs', name: 'S\'MORES (12PCS)', category: 'MINI COOKIES', price: 320, image: 'https://i.ibb.co/QzfTyRr/image.png' },
+            { id: 'miniSmoresCookies12pcs', name: 'S\'MORES (12PCS)', category: 'MINI COOKIES', price: 320 },
             { id: 'miniWhiteChocoCookies6pcs', name: 'WHITE CHOCO (6PCS)', category: 'MINI COOKIES', price: 150, image: 'https://i.ibb.co/Gf4yNbYM/image.png' },
-            { id: 'miniWhiteChocoCookies12pcs', name: 'WHITE CHOCO (12PCS)', category: 'MINI COOKIES', price: 300, image: 'https://i.ibb.co/Gf4yNbYM/image.png' },
+            { id: 'miniWhiteChocoCookies12pcs', name: 'WHITE CHOCO (12PCS)', category: 'MINI COOKIES', price: 300 },
             { id: 'miniRedVelvetCookies6pcs', name: 'RED VELVET (6PCS)', category: 'MINI COOKIES', price: 150, image: 'https://i.ibb.co/j9kL8884/image.png' },
-            { id: 'miniRedVelvetCookies12pcs', name: 'RED VELVET (12PCS)', category: 'MINI COOKIES', price: 300, image: 'https://i.ibb.co/j9kL8884/image.png' },
+            { id: 'miniRedVelvetCookies12pcs', name: 'RED VELVET (12PCS)', category: 'MINI COOKIES', price: 300 },
             { id: 'miniMatchaCookies6pcs', name: 'MATCHA (6PCS)', category: 'MINI COOKIES', price: 150, image: 'https://i.ibb.co/mF9y0dpX/image.png' },
-            { id: 'miniMatchaCookies12pcs', name: 'MATCHA (12PCS)', category: 'MINI COOKIES', price: 300, image: 'https://i.ibb.co/mF9y0dpX/image.png' },
+            { id: 'miniMatchaCookies12pcs', name: 'MATCHA (12PCS)', category: 'MINI COOKIES', price: 300 },
 
-            // MUFFIN
+            // CHOCOLATE CAKE
             { id: 'doubleChocolateMuffin4pcs', name: 'DOUBLE CHOCOLATE MUFFIN (4PCS)', category: 'MUFFIN', price: 200, image: 'https://i.ibb.co/fVD4LTYN/image.png' },
             { id: 'muffinBlueberry4pcs', name: 'BLUEBERRY MUFFIN (4PCS)', category: 'MUFFIN', price: 220, image: 'https://i.ibb.co/RGngGh64/image.png' },
 
@@ -1062,577 +991,422 @@
             { id: 'bentoNutella', name: 'NUTELLA', category: 'BENTO CHEESE CAKE', price: 390, image: 'https://i.ibb.co/m5L3DwmG/image.png' }
         ];
 
-        // --- IMPORTANT: Replace with your actual deployed Apps Script Web App URL ---
-        const WEB_APP_URL = 'YOUR_DEPLOYED_APPS_SCRIPT_WEB_APP_URL_HERE'; // <<< GET THIS FROM APPS SCRIPT DEPLOYMENT
-
-        // --- DOM Elements (Get references once the DOM is loaded) ---
-        let menuContainer; // The div where product cards will be rendered
-        let categoryTabsContainer; // The div where category buttons will be added
-        let cartItemsContainer; // The container for items in the cart
-        let subTotalDisplay;
-        let deliveryFeeDisplay;
-        let totalAmountDisplay;
-        let shippingAddressSelect; // The dropdown for delivery locations
-        let deliveryDetailsSection; // Section that shows delivery date/time inputs
-        let pickupDetailsSection; // Section that shows pickup location input
-        let deliveryDateTimeHeader; // Header for delivery date & time section
-        let dateTimePickerContainer; // Container for date and time pickers
-        let selectedDeliveryFeeDisplay; // Element to show selected delivery fee
-
-
-        // --- Initialization on DOM Ready ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get DOM element references
-            menuContainer = document.getElementById('productCatalog');
-            categoryTabsContainer = document.getElementById('categoryTabs');
-            cartItemsContainer = document.getElementById('cartItemsList');
-            subTotalDisplay = document.getElementById('subTotalAmount'); // This ID doesn't exist in your HTML, consider adding it
-            deliveryFeeDisplay = document.getElementById('deliveryFee'); // This ID doesn't exist, consider adding it
-            totalAmountDisplay = document.getElementById('totalAmount');
-            shippingAddressSelect = document.getElementById('shippingAddressSelect');
-            deliveryDetailsSection = document.getElementById('deliveryDetails');
-            pickupDetailsSection = document.getElementById('pickupDetails');
-            deliveryDateTimeHeader = document.getElementById('deliveryDateTimeHeader');
-            dateTimePickerContainer = document.querySelector('.date-time-picker-container');
-            selectedDeliveryFeeDisplay = document.getElementById('selectedDeliveryFeeDisplay');
-
-
-            // Initial data load
+        // --- Event Listeners and Initial Setup ---
+        document.addEventListener('DOMContentLoaded', function() {
             loadProducts();
             loadDeliveryLocations();
-
-            // Event listener for order type change
-            const orderTypeSelect = document.getElementById('orderType');
-            if (orderTypeSelect) {
-                orderTypeSelect.addEventListener('change', toggleOrderType);
-            }
-
-            // Event listener for delivery address change (to update fee)
-            if (shippingAddressSelect) {
-                shippingAddressSelect.addEventListener('change', handleDeliveryLocationChange);
-            }
-
-            // Date picker event listeners
-            document.getElementById('deliveryDate').addEventListener('click', () => showCalendar(currentMonth, currentYear));
-            document.getElementById('deliveryDate').addEventListener('focus', (event) => { event.target.blur(); }); // Prevent soft keyboard
-
-            // Event listeners for basic HTML5 date/time inputs
-            const deliveryDateInput = document.getElementById('deliveryDate');
-            const deliveryTimeInput = document.getElementById('deliveryTime');
-
-            if (deliveryDateInput) {
-                deliveryDateInput.addEventListener('change', (event) => {
-                    selectedDeliveryDate = new Date(event.target.value);
-                    renderTimeSlots(); // Re-render time slots when date changes
-                });
-            }
-            if (deliveryTimeInput) {
-                // This input is hidden; time is selected via custom time slots
-                // The actual `selectedDeliveryTime` is set in selectTimeSlot()
-            }
-
-            // Initialize calendar
             renderCalendar();
-            document.getElementById('currentTimeZone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-
-            // Initial call to hide/show delivery/pickup based on default selection
+            updateTimeZoneDisplay();
+            updateCartDisplay();
             toggleOrderType();
+            generateCategoryTabs();
+            showCategory('CRINKLES');
         });
 
-
-        // --- Main Tab Switching ---
-        function showMainTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
+        // --- Main Tab Switching (Menu | Order Here) ---
+        function showMainTab(tabName) {
             document.querySelectorAll('.tab-button').forEach(button => {
                 button.classList.remove('active');
             });
-
-            document.getElementById(tabId + 'TabContent').classList.add('active');
-            document.querySelector(`.tab-button[onclick="showMainTab('${tabId}')"]`).classList.add('active');
-        }
-
-
-        // --- Product Loading & Rendering ---
-
-        /**
-         * Fetches products from Google Sheet and merges them with baseProducts.
-         * Renders the product catalog and category tabs.
-         */
-        async function loadProducts() {
-            try {
-                // Show loading indicator
-                menuContainer.innerHTML = '<p style="text-align: center;">Loading products...</p>';
-
-                // Fetch data from Google Sheet
-                const response = await fetch(`${WEB_APP_URL}?action=getProducts`);
-                const sheetProducts = await response.json();
-
-                // Merge sheet data with baseProducts
-                // Prioritize sheet data for price, status, etc.
-                products = baseProducts.map(baseProduct => {
-                    const sheetProduct = sheetProducts.find(sp => sp.id === baseProduct.id);
-                    return { ...baseProduct, ...sheetProduct }; // Merge: sheetProduct overrides baseProduct if IDs match
-                });
-
-                // Filter out products that might not have an ID or name
-                products = products.filter(p => p.id && p.name);
-
-                // Populate categories for tabs
-                categories = products.reduce((acc, product) => {
-                    if (product.category && !acc[product.category]) {
-                        acc[product.category] = true;
-                    }
-                    return acc;
-                }, {});
-
-                renderCategoryTabs();
-                renderProducts('ALL'); // Render all products initially
-            } catch (error) {
-                console.error('Error loading products:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to load products. Please try again later. Using fallback data.',
-                });
-                // Fallback to only baseProducts if sheet loading fails
-                products = [...baseProducts];
-                categories = products.reduce((acc, product) => {
-                    if (product.category && !acc[product.category]) {
-                        acc[product.category] = true;
-                    }
-                    return acc;
-                }, {});
-                renderCategoryTabs();
-                renderProducts('ALL');
-            }
-        }
-
-        /**
-         * Renders a given array of products into the menu container.
-         * @param {string} filterCategory The category to filter by, or 'ALL'.
-         */
-        function renderProducts(filterCategory) {
-            if (!menuContainer) {
-                console.error("Error: Product catalog container element not found for rendering!");
-                return;
-            }
-            menuContainer.innerHTML = ''; // Clear existing items
-
-            const productsToDisplay = filterCategory === 'ALL'
-                ? products
-                : products.filter(p => p.category === filterCategory);
-
-            if (productsToDisplay.length === 0) {
-                menuContainer.innerHTML = '<p class="text-center text-light">No items found in this category.</p>';
-                return;
-            }
-
-            productsToDisplay.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.classList.add('product-card');
-
-                // Determine availability status
-                const isAvailable = product.status && product.status.toUpperCase() === 'AVAILABLE';
-                const statusText = product.status ? product.status.toUpperCase() : 'N/A'; // Default to N/A if status missing
-                let statusClass = '';
-                if (statusText === 'AVAILABLE') {
-                    statusClass = 'available';
-                } else if (statusText === 'OUT OF STOCK') {
-                    statusClass = 'out-of-stock';
-                } else if (statusText === 'COMING SOON') {
-                    statusClass = 'coming-soon';
-                }
-
-                productCard.innerHTML = `
-                    <img src="${product.image || 'https://via.placeholder.com/200?text=No+Image'}" alt="${product.name}" class="product-img">
-                    <div class="product-info">
-                        <h4>${product.name}</h4>
-                        <p>₱${product.price ? product.price.toFixed(2) : 'N/A'}</p>
-                        <div class="product-status">
-                            <span class="status-badge ${statusClass}">${statusText}</span>
-                        </div>
-                        <div class="quantity-control mt-auto">
-                            <button type="button" onclick="decreaseQuantity('${product.id}')" ${!isAvailable ? 'disabled' : ''}>-</button>
-                            <span id="quantity-${product.id}">${cart[product.id] || 0}</span>
-                            <button type="button" onclick="increaseQuantity('${product.id}')" ${!isAvailable ? 'disabled' : ''}>+</button>
-                        </div>
-                    </div>
-                `;
-                menuContainer.appendChild(productCard);
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
             });
+
+            document.querySelector(`.main-tabs button[onclick="showMainTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}TabContent`).classList.add('active');
+
+            if (tabName === 'order') {
+                // Ensure products are rendered when switching to Order Here
+                // and a default category is shown
+                if (products.length === 0) {
+                    loadProducts(); // Load products if not already loaded
+                } else {
+                    // If products are already loaded, just render the currently active category or a default one
+                    const activeCategoryButton = document.querySelector('.category-tabs .active');
+                    if (activeCategoryButton) {
+                        showCategory(activeCategoryButton.dataset.category);
+                    } else {
+                        showCategory('CRINKLES'); // Default category
+                    }
+                }
+            }
         }
 
-        /**
-         * Renders the category filter tabs based on available product categories.
-         */
-        function renderCategoryTabs() {
-            if (!categoryTabsContainer) {
-                console.error("Error: Category tabs container element not found!");
-                return;
-            }
-            categoryTabsContainer.innerHTML = ''; // Clear previous tabs
+        // --- Category Tab Generation ---
+        function generateCategoryTabs() {
+            const categoryTabsContainer = document.getElementById('categoryTabs');
+            categoryTabsContainer.innerHTML = ''; // Clear existing tabs
 
-            // Add 'ALL' category tab
-            const allButton = document.createElement('button');
-            allButton.textContent = 'ALL';
-            allButton.classList.add('active'); // 'ALL' is active by default
-            allButton.onclick = () => {
-                renderProducts('ALL');
-                setActiveCategoryTab(allButton);
-            };
-            categoryTabsContainer.appendChild(allButton);
+            // Get unique categories from products
+            const uniqueCategories = [...new Set(baseProducts.map(p => p.category))];
 
-            // Add other category tabs
-            Object.keys(categories).forEach(category => {
+            uniqueCategories.forEach(category => {
                 const button = document.createElement('button');
                 button.textContent = category;
-                button.onclick = () => {
-                    renderProducts(category);
-                    setActiveCategoryTab(button);
-                };
+                button.classList.add('category-tab-button');
+                button.dataset.category = category; // Store category name in data attribute
+                button.onclick = () => showCategory(category);
                 categoryTabsContainer.appendChild(button);
             });
         }
 
-        /**
-         * Sets the active class for category tabs.
-         * @param {HTMLElement} activeButton The button element to set as active.
-         */
-        function setActiveCategoryTab(activeButton) {
-            document.querySelectorAll('.category-tabs button').forEach(button => {
+        // --- Show Products by Category ---
+        function showCategory(categoryName) {
+            // Remove active class from all category buttons
+            document.querySelectorAll('.category-tab-button').forEach(button => {
                 button.classList.remove('active');
             });
-            activeButton.classList.add('active');
+
+            // Add active class to the clicked button
+            document.querySelector(`.category-tab-button[data-category="${categoryName}"]`).classList.add('active');
+
+            // Filter products and re-render
+            const filteredProducts = products.filter(p => p.category === categoryName);
+            renderProducts(filteredProducts); // Pass filtered products to render
         }
 
 
-        // --- Cart Management ---
+        // --- Product Loading ---
+        function loadProducts() {
+            Swal.fire({
+                title: 'Loading Menu...',
+                text: 'Please wait while we fetch the latest products.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
-        /**
-         * Increases the quantity of a product in the cart.
-         * @param {string} productId The ID of the product.
-         */
-        function increaseQuantity(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product || (product.status && product.status.toUpperCase() !== 'AVAILABLE')) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Unavailable',
-                    text: `${product.name} is currently ${product.status ? product.status.toLowerCase() : 'unavailable'}.`,
-                    customClass: {
-                        confirmButton: 'swal-button'
+            // Simulate google.script.run for local testing
+            if (typeof google === 'undefined' || typeof google.script === 'undefined') {
+                console.warn('google.script.run is not available. Using baseProducts.');
+                products = [...baseProducts];
+                // Assume all base products are available and set status
+                products.forEach(p => {
+                    p.available = true;
+                    p.status = 'Available';
+                    // Ensure prices are numbers (if not already from sheet)
+                    if (typeof p.price === 'string') {
+                        p.price = parseFloat(p.price.replace(/[^0-9.-]+/g, ""));
                     }
                 });
+                Swal.close();
+                generateCategoryTabs(); // Ensure tabs are generated after products are set
+                showCategory(Object.keys(categories)[0] || 'CRINKLES'); // Show the first category or default
+                updateCartDisplay();
                 return;
             }
 
-            cart[productId] = (cart[productId] || 0) + 1;
+            google.script
+                .run
+                .withSuccessHandler(function(sheetProducts) {
+                    Swal.close();
+                    // Merge sheet data with base products
+                    const mergedProductsMap = new Map(baseProducts.map(p => [p.id, { ...p }])); // Start with base product data
+                    
+                    sheetProducts.forEach(sheetP => {
+                        if (mergedProductsMap.has(sheetP.id)) {
+                            // Update existing product with sheet data
+                            const existingProduct = mergedProductsMap.get(sheetP.id);
+                            existingProduct.price = parseFloat(sheetP.price);
+                            existingProduct.available = sheetP.available;
+                            existingProduct.status = sheetP.status;
+                            if (sheetP.image) { // Only update image if sheet has one
+                                existingProduct.image = sheetP.image;
+                            }
+                        } else {
+                            // Add new products from sheet if they don't exist in base (less common for this setup)
+                            sheetP.price = parseFloat(sheetP.price);
+                            mergedProductsMap.set(sheetP.id, sheetP);
+                        }
+                    });
+
+                    products = Array.from(mergedProductsMap.values());
+
+                    // Important: If a product becomes unavailable, remove it from the cart
+                    products.forEach(mergedProduct => {
+                        if (!mergedProduct.available && cart[mergedProduct.id]) {
+                            delete cart[mergedProduct.id];
+                        }
+                    });
+
+                    // Ensure all products have an 'available' and 'status' property
+                    // This handles cases where new products might be added via sheet without these properties
+                    products.forEach(p => {
+                        if (p.available === undefined) p.available = true; // Default to available
+                        if (p.status === undefined) p.status = p.available ? 'Available' : 'Out of Stock';
+                    });
+
+                    generateCategoryTabs(); // Generate category tabs once products are loaded
+                    showCategory(Object.keys(categories)[0] || 'CRINKLES'); // Show the first category or default
+                    updateCartDisplay(); // Update cart display after products are rendered and possibly filtered
+                })
+                .withFailureHandler(function(error) {
+                    Swal.close(); // Close loading spinner
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed to Load Menu',
+                        text: 'There was an error fetching product data: ' + error.message + '. Displaying default menu.',
+                        confirmButtonText: 'OK'
+                    });
+                    // Fallback: If loading from sheet fails, use baseProducts as is
+                    products = [...baseProducts];
+                    products.forEach(p => { p.available = true; p.status = 'Available'; }); // Assume available if sheet failed
+                    generateCategoryTabs(); // Ensure tabs are generated after products are set
+                    showCategory(Object.keys(categories)[0] || 'CRINKLES'); // Show the first category or default
+                    updateCartDisplay();
+                })
+                .getProducts(); // Call the Google Apps Script function
+        }
+
+        let categories = {}; // Declare categories outside renderProducts to be accessible globally
+
+        function renderProducts(productsToRender = products) {
+            const productCatalog = document.getElementById('productCatalog');
+            productCatalog.innerHTML = ''; // Clear previous products
+
+            categories = {}; // Reset categories object for each render
+
+            // Group products by category and handle variants
+            productsToRender.forEach(product => {
+                // Ensure product.name is a string before any string operations
+                const productName = String(product.name || '').trim(); // Coerce to string and trim any initial whitespace
+                const isIndividual = /\(10pcs\)/i.test(productName) && product.category === 'CRINKLES'; // Use productName here
+
+                if (!categories[product.category]) {
+                    categories[product.category] = {};
+                }
+
+                let baseNameForGrouping = productName; // Use productName here
+                if (!isIndividual) {
+                    // Apply replace only if productName is not empty
+                    baseNameForGrouping = productName.replace(/\s*\(.*?\)/, '').trim();
+                }
+
+                const key = `${product.category}-${baseNameForGrouping}`;
+
+                if (!categories[product.category][key]) {
+                    categories[product.category][key] = {
+                        baseName: baseNameForGrouping,
+                        category: product.category,
+                        image: product.image || '',
+                        variants: []
+                    };
+                }
+
+                if (!categories[product.category][key].image && product.image) {
+                    categories[product.category][key].image = product.image;
+                }
+
+                categories[product.category][key].variants.push(product);
+            });
+
+            // Display products for the selected category
+            for (const categoryName in categories) {
+                const itemsInThisCategory = categories[categoryName];
+
+                for (const key in itemsInThisCategory) {
+                    const item = itemsInThisCategory[key];
+
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+
+                    // Ensure item.baseName is a string before calling replace on it
+                    const displayMainName = String(item.baseName || '').replace(/\s*\(.*?\)/, '').trim();
+
+                    productCard.innerHTML = `
+                        ${item.image ? `<img src="${item.image}" alt="${item.baseName}" class="product-img">` : ''}
+                        <div class="product-info">
+                            <h4>${displayMainName}</h4>
+                            ${item.variants.map(variant => {
+                                const variantTextMatch = String(variant.name || '').match(/\(.*?\)/); // Ensure variant.name is a string too
+                                const variantText = variantTextMatch ? variantTextMatch[0] : '';
+                                const safeStatus = (variant.status || '').toLowerCase().replace(/\s/g, '-');
+
+                                return `
+                                    <div style="margin-bottom: 10px;">
+                                        <strong>${variantText}</strong>
+                                        <p>₱${variant.price !== undefined && variant.price !== null ? variant.price.toFixed(2) : 'N/A'}</p>
+                                        ${variant.available ? `
+                                            <div class="quantity-control">
+                                                <button type="button" onclick="changeQuantity('${variant.id}', -1)">-</button>
+                                                <span id="qty-${variant.id}">${cart[variant.id] || 0}</span>
+                                                <button type="button" onclick="changeQuantity('${variant.id}', 1)">+</button>
+                                            </div>
+                                        ` : `
+                                            <div class="product-status">
+                                                <span class="status-badge ${safeStatus}">${variant.status || 'N/A'}</span>
+                                            </div>
+                                        `}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                    productCatalog.appendChild(productCard);
+                }
+            }
+        }
+
+        // --- MODIFIED changeQuantity() ---
+        function changeQuantity(productId, delta) {
+            const product = products.find(p => p.id === productId);
+            // Only allow changing quantity if the product is available
+            if (!product || !product.available) {
+                if (!product) {
+                    console.warn(`Product with ID ${productId} not found.`);
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Item Unavailable',
+                        text: `"${product.name}" is currently ${product.status || 'not available'}.`,
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            confirmButton: 'swal-button'
+                        }
+                    });
+                }
+                return;
+            }
+
+            let currentQty = cart[productId] || 0;
+            let newQty = currentQty + delta;
+
+            if (newQty < 0) newQty = 0;
+
+            cart[productId] = newQty;
+            const qtySpan = document.getElementById(`qty-${productId}`);
+            if (qtySpan) {
+                qtySpan.textContent = newQty;
+            }
             updateCartDisplay();
         }
 
-        /**
-         * Decreases the quantity of a product in the cart.
-         * @param {string} productId The ID of the product.
-         */
-        function decreaseQuantity(productId) {
-            if (cart[productId] > 0) {
-                cart[productId]--;
-                if (cart[productId] === 0) {
-                    delete cart[productId]; // Remove item if quantity is 0
-                }
-                updateCartDisplay();
-            }
-        }
-
-        /**
-         * Updates the display of quantities on product cards and in the cart summary.
-         */
+        // --- REMAINDER OF YOUR EXISTING FUNCTIONS (NO CHANGES REQUIRED HERE) ---
         function updateCartDisplay() {
-            // Update quantity on product cards
-            for (const id in cart) {
-                const quantitySpan = document.getElementById(`quantity-${id}`);
-                if (quantitySpan) {
-                    quantitySpan.textContent = cart[id];
-                }
-            }
-            // If an item is removed from cart (quantity becomes 0), ensure its display is 0
+            const cartItemsList = document.getElementById('cartItemsList');
+            cartItemsList.innerHTML = '';
+            let subTotalAmount = 0;
+            let itemsInCart = false;
+
+            // Iterate over the dynamically populated 'products' array
             products.forEach(product => {
-                if (!(product.id in cart)) {
-                    const quantitySpan = document.getElementById(`quantity-${product.id}`);
-                    if (quantitySpan) {
-                        quantitySpan.textContent = 0;
-                    }
-                }
-            });
-
-            // Update cart summary list
-            if (!cartItemsContainer) {
-                console.error("Error: Cart items container element not found for display!");
-                return;
-            }
-            cartItemsContainer.innerHTML = ''; // Clear previous items
-            let subTotal = 0;
-
-            for (const productId in cart) {
-                const quantity = cart[productId];
-                const product = products.find(p => p.id === productId);
-
-                if (product && quantity > 0) {
-                    const itemTotal = product.price * quantity;
-                    subTotal += itemTotal;
+                if (cart[product.id] > 0) {
+                    itemsInCart = true;
+                    const itemTotal = product.price * cart[product.id];
+                    subTotalAmount += itemTotal;
 
                     const listItem = document.createElement('li');
                     listItem.innerHTML = `
-                        <span>${product.name} x ${quantity}</span>
+                        <span>${product.name} (x${cart[product.id]})</span>
                         <span>₱${itemTotal.toFixed(2)}</span>
                     `;
-                    cartItemsContainer.appendChild(listItem);
+                    cartItemsList.appendChild(listItem);
                 }
-            }
-
-            // Add subtotal and delivery fee (if applicable)
-            if (Object.keys(cart).length > 0) {
-                const subtotalItem = document.createElement('li');
-                subtotalItem.classList.add('cart-subtotal-item');
-                subtotalItem.innerHTML = `<span>Subtotal:</span><span>₱${subTotal.toFixed(2)}</span>`;
-                cartItemsContainer.appendChild(subtotalItem);
-
-                if (document.getElementById('orderType').value === 'delivery') {
-                    const deliveryFeeItem = document.createElement('li');
-                    deliveryFeeItem.classList.add('delivery-fee-item');
-                    deliveryFeeItem.innerHTML = `<span>Delivery Fee:</span><span id="deliveryFee">₱${deliveryFee.toFixed(2)}</span>`;
-                    cartItemsContainer.appendChild(deliveryFeeItem);
-                }
-            } else {
-                cartItemsContainer.innerHTML = '<li>Your cart is empty.</li>';
-            }
-
-            // Update total amount
-            const totalAmount = subTotal + deliveryFee;
-            if (totalAmountDisplay) {
-                totalAmountDisplay.textContent = `₱${totalAmount.toFixed(2)}`;
-            }
-        }
-
-        /**
-         * Clears the cart and updates the display.
-         */
-        function clearCart() {
-            cart = {};
-            updateCartDisplay();
-        }
-
-        /**
-         * Handles the click on "Proceed to Checkout" button.
-         * Scrolls to the form and focuses the first input.
-         */
-        function proceedToCheckout() {
-            if (Object.keys(cart).length === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Cart Empty',
-                    text: 'Please add items to your cart before proceeding to checkout.',
-                    customClass: {
-                        confirmButton: 'swal-button'
-                    }
-                });
-                return;
-            }
-
-            // Switch to 'order' tab if not already there
-            showMainTab('order');
-
-            // Scroll to the order form
-            const orderForm = document.getElementById('order-form');
-            if (orderForm) {
-                orderForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // Optionally focus on the first input field
-                const firstInput = orderForm.querySelector('input, select, textarea');
-                if (firstInput) {
-                    firstInput.focus();
-                }
-            }
-        }
-
-
-        // --- Order Type, Delivery, and Pickup Logic ---
-
-        /**
-         * Toggles the visibility of delivery/pickup sections based on order type.
-         */
-        function toggleOrderType() {
-            const orderType = document.getElementById('orderType').value;
-
-            if (deliveryDetailsSection && pickupDetailsSection && deliveryDateTimeHeader && dateTimePickerContainer) {
-                deliveryDetailsSection.style.display = 'none';
-                pickupDetailsSection.style.display = 'none';
-                deliveryDateTimeHeader.style.display = 'none';
-                dateTimePickerContainer.style.display = 'none';
-            }
-
-            if (orderType === 'delivery' || orderType === 'meetup') {
-                if (deliveryDetailsSection && deliveryDateTimeHeader && dateTimePickerContainer) {
-                    deliveryDetailsSection.style.display = 'block';
-                    deliveryDateTimeHeader.style.display = 'block';
-                    dateTimePickerContainer.style.display = 'grid'; // Use grid for layout
-                    // Reset delivery fee if order type changes from pickup
-                    if (deliveryFee === 0) { // Only if it was previously 0 (e.g., from pickup)
-                        handleDeliveryLocationChange(); // Recalculate fee for 'delivery'
-                    }
-                }
-            } else if (orderType === 'pickup') {
-                if (pickupDetailsSection) {
-                    pickupDetailsSection.style.display = 'block';
-                    deliveryFee = 0; // No delivery fee for pickup
-                    updateCartDisplay();
-                }
-            } else {
-                deliveryFee = 0; // Reset delivery fee if no type selected
-                updateCartDisplay();
-            }
-
-            // Clear validation errors on address/date/time when changing order type
-            clearValidationError(shippingAddressSelect);
-            clearValidationError(document.querySelector('.date-picker-section'));
-            clearValidationError(document.querySelector('.time-picker-section'));
-        }
-
-        /**
-         * Loads delivery locations from the Google Sheet.
-         */
-        async function loadDeliveryLocations() {
-            try {
-                const response = await fetch(`${WEB_APP_URL}?action=getDeliveryLocations`);
-                deliveryLocations = await response.json();
-                renderDeliveryLocations();
-            } catch (error) {
-                console.error('Error loading delivery locations:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Failed to load delivery locations. Please try refreshing the page.',
-                    customClass: {
-                        confirmButton: 'swal-button'
-                    }
-                });
-            }
-        }
-
-        /**
-         * Renders delivery locations into the dropdown.
-         */
-        function renderDeliveryLocations() {
-            if (!shippingAddressSelect) return;
-
-            // Keep the "Select a delivery location" option
-            const defaultOption = shippingAddressSelect.querySelector('option[value=""]');
-            shippingAddressSelect.innerHTML = ''; // Clear existing options, then add default back
-            if (defaultOption) {
-                shippingAddressSelect.appendChild(defaultOption);
-            } else {
-                const newDefaultOption = document.createElement('option');
-                newDefaultOption.value = '';
-                newDefaultOption.textContent = 'Select a delivery location';
-                shippingAddressSelect.appendChild(newDefaultOption);
-            }
-
-            deliveryLocations.forEach(location => {
-                const option = document.createElement('option');
-                option.value = location.location;
-                option.textContent = `${location.location} (₱${location.fee.toFixed(2)})`;
-                shippingAddressSelect.appendChild(option);
             });
 
-            // Trigger update in case an option was pre-selected or to show default fee
-            handleDeliveryLocationChange();
-        }
-
-        /**
-         * Handles the change event for the delivery location dropdown.
-         * Updates the delivery fee display and global deliveryFee variable.
-         */
-        function handleDeliveryLocationChange() {
-            const selectedLocationName = shippingAddressSelect.value;
-            const selectedLocation = deliveryLocations.find(loc => loc.location === selectedLocationName);
-
-            if (selectedLocation) {
-                deliveryFee = selectedLocation.fee;
-                selectedDeliveryFeeDisplay.textContent = `Delivery Fee: ₱${deliveryFee.toFixed(2)}`;
-                clearValidationError(shippingAddressSelect);
-            } else {
-                deliveryFee = 0; // No location selected or invalid
-                selectedDeliveryFeeDisplay.textContent = '';
+            if (!itemsInCart) {
+                const noItems = document.createElement('li');
+                noItems.textContent = "No items in cart yet. Select from the menu above!";
+                noItems.style.justifyContent = 'center';
+                noItems.style.fontStyle = 'italic';
+                noItems.style.color = 'var(--text-light)';
+                cartItemsList.appendChild(noItems);
             }
-            updateCartDisplay(); // Recalculate total with new delivery fee
+
+            // Display subtotal
+            const subtotalItem = document.createElement('li');
+            subtotalItem.classList.add('cart-subtotal-item');
+            subtotalItem.innerHTML = `
+                <span>Subtotal:</span>
+                <span>₱${subTotalAmount.toFixed(2)}</span>
+            `;
+            cartItemsList.appendChild(subtotalItem);
+
+            // Add delivery fee line item if applicable
+            if (deliveryFee > 0) {
+                const deliveryFeeItem = document.createElement('li');
+                deliveryFeeItem.classList.add('delivery-fee-item');
+                deliveryFeeItem.innerHTML = `
+                    <span>Delivery Fee:</span>
+                    <span>₱${deliveryFee.toFixed(2)}</span>
+                `;
+                cartItemsList.appendChild(deliveryFeeItem);
+            }
+
+            // Calculate final total
+            const finalTotalAmount = subTotalAmount + deliveryFee;
+            document.getElementById('totalAmount').textContent = `₱${finalTotalAmount.toFixed(2)}`;
         }
 
+        function toUpperCaseInput(event) {
+            event.target.value = event.target.value.toUpperCase();
+        }
 
-        // --- Date Picker Logic ---
-
-        /**
-         * Renders the calendar for the current month and year.
-         */
+        // Date Picker Functions
         function renderCalendar() {
-            const today = new Date();
-            const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            const startDay = firstDayOfMonth.getDay(); // Day of the week (0 for Sunday)
-
-            const monthYearDisplay = document.getElementById('monthYear');
+            const monthYearText = document.getElementById('monthYear');
             const calendarDaysContainer = document.getElementById('calendarDays');
+            const deliveryDateInput = document.getElementById('deliveryDate');
 
-            if (!monthYearDisplay || !calendarDaysContainer) {
-                console.error("Calendar elements not found!");
-                return;
+            monthYearText.textContent = `${months[currentMonth]} ${currentYear}`;
+            calendarDaysContainer.innerHTML = '';
+
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            // Fill leading empty days
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyDiv = document.createElement('div');
+                emptyDiv.classList.add('other-month');
+                calendarDaysContainer.appendChild(emptyDiv);
             }
 
-            monthYearDisplay.textContent = `${months[currentMonth]} ${currentYear}`;
-            calendarDaysContainer.innerHTML = ''; // Clear previous days
-
-            // Add empty divs for leading blank days
-            for (let i = 0; i < startDay; i++) {
-                const blankDay = document.createElement('div');
-                blankDay.classList.add('other-month'); // Indicate it's not part of the current month
-                calendarDaysContainer.appendChild(blankDay);
-            }
-
-            // Add days of the month
+            // Fill days of the month
             for (let day = 1; day <= daysInMonth; day++) {
                 const dayDiv = document.createElement('div');
                 dayDiv.textContent = day;
-                const currentDate = new Date(currentYear, currentMonth, day);
+                const date = new Date(currentYear, currentMonth, day);
+                date.setHours(0, 0, 0, 0); // Normalize date for comparison
 
-                // Disable past dates
-                if (currentDate < today.setHours(0, 0, 0, 0)) { // Compare dates only, ignore time
+                const now = new Date(); // Get current date/time to ensure it's up-to-date
+                const todayNormalized = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                todayNormalized.setHours(0, 0, 0, 0);
+
+                // Disable past dates relative to the actual current date/time
+                if (date < todayNormalized) {
                     dayDiv.classList.add('past-date');
-                    dayDiv.style.cursor = 'not-allowed';
                 } else {
-                    dayDiv.addEventListener('click', () => selectDate(day));
+                    dayDiv.addEventListener('click', () => {
+                        selectDeliveryDate(date);
+                    });
                 }
 
-                // Highlight current day
-                if (currentDate.toDateString() === today.toDateString()) {
+                if (date.getTime() === todayNormalized.getTime()) {
                     dayDiv.classList.add('current-day');
                 }
 
-                // Highlight selected date
-                if (selectedDeliveryDate && currentDate.toDateString() === selectedDeliveryDate.toDateString()) {
+                if (selectedDeliveryDate && date.getTime() === selectedDeliveryDate.getTime()) {
                     dayDiv.classList.add('selected-date');
                 }
-
                 calendarDaysContainer.appendChild(dayDiv);
+            }
+
+            // Update delivery date input field
+            if (selectedDeliveryDate) {
+                const month = (selectedDeliveryDate.getMonth() + 1).toString().padStart(2, '0');
+                const day = selectedDeliveryDate.getDate().toString().padStart(2, '0');
+                const year = selectedDeliveryDate.getFullYear();
+                deliveryDateInput.value = `${month}/${day}/${year}`;
+                displayTimeSlots(); // Re-render time slots for the newly selected date
+            } else {
+                deliveryDateInput.value = '';
+                displayTimeSlots(); // Clear time slots if no date selected
             }
         }
 
-        /**
-         * Changes the month displayed in the calendar.
-         * @param {number} offset -1 for previous month, 1 for next month.
-         */
-        function changeMonth(offset) {
-            currentMonth += offset;
+        function changeMonth(delta) {
+            currentMonth += delta;
             if (currentMonth < 0) {
                 currentMonth = 11;
                 currentYear--;
@@ -1643,347 +1417,537 @@
             renderCalendar();
         }
 
-        /**
-         * Selects a date from the calendar.
-         * @param {number} day The day of the month to select.
-         */
-        function selectDate(day) {
-            selectedDeliveryDate = new Date(currentYear, currentMonth, day);
-            document.getElementById('deliveryDate').value = selectedDeliveryDate.toLocaleDateString('en-US');
-            document.getElementById('selectedDateDisplay').textContent = `Time for ${selectedDeliveryDate.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}`;
-            renderCalendar(); // Re-render to show selected date highlight
-            renderTimeSlots(); // Re-render time slots based on new date
-            clearValidationError(document.querySelector('.date-picker-section'));
-        }
-
-        /**
-         * Renders available time slots.
-         */
-        function renderTimeSlots() {
-            const timeSlotsContainer = document.getElementById('timeSlots');
-            if (!timeSlotsContainer) {
-                console.error("Time slots container not found!");
-                return;
-            }
-            timeSlotsContainer.innerHTML = ''; // Clear previous slots
-
-            if (!selectedDeliveryDate) {
-                timeSlotsContainer.innerHTML = '<p class="text-center text-light">Please select a delivery date first.</p>';
-                return;
-            }
-
+        function selectDeliveryDate(date) {
             const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Today at 00:00:00
+            const todayNormalized = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            todayNormalized.setHours(0, 0, 0, 0);
 
-            timeSlots.forEach(slot => {
-                const slotDiv = document.createElement('div');
-                slotDiv.classList.add('time-slot');
-                slotDiv.textContent = slot;
+            if (date < todayNormalized) {
+                return; // Cannot select a past date
+            }
 
-                const [time, period] = slot.split(' ');
-                let [hours, minutes] = time.split(':').map(Number);
+            const previouslySelected = document.querySelector('.calendar-days .selected-date');
+            if (previouslySelected) {
+                previouslySelected.classList.remove('selected-date');
+            }
 
-                if (period === 'PM' && hours !== 12) {
-                    hours += 12;
-                }
-                if (period === 'AM' && hours === 12) { // Midnight (12 AM)
-                    hours = 0;
-                }
-
-                const slotDateTime = new Date(selectedDeliveryDate.getFullYear(),
-                                            selectedDeliveryDate.getMonth(),
-                                            selectedDeliveryDate.getDate(),
-                                            hours, minutes, 0);
-
-                // Disable past time slots for the selected date if it's today
-                if (selectedDeliveryDate.toDateString() === today.toDateString() && slotDateTime < now) {
-                    slotDiv.classList.add('unavailable');
-                    slotDiv.title = 'Past time slot';
-                } else {
-                    slotDiv.addEventListener('click', () => selectTimeSlot(slot));
-                }
-
-                // Highlight selected time slot
-                if (selectedDeliveryTime === slot) {
-                    slotDiv.classList.add('selected-time');
-                }
-
-                timeSlotsContainer.appendChild(slotDiv);
-            });
+            selectedDeliveryDate = date;
+            selectedDeliveryTime = null; // Reset time when date changes
+            renderCalendar(); // Re-render to highlight the selected date and update the input
+            displayTimeSlots(); // This will also reset selectedDeliveryTime
+            document.getElementById('deliveryDate').classList.remove('error'); // Remove error on selection
+            document.querySelector('.date-picker-section').classList.remove('error'); // Remove error from section
         }
 
-        /**
-         * Selects a time slot.
-         * @param {string} time The selected time string (e.g., "9:00 AM").
-         */
-        function selectTimeSlot(time) {
+        function displayTimeSlots() {
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            const selectedDateDisplay = document.getElementById('selectedDateDisplay');
+            timeSlotsContainer.innerHTML = '';
+
+            if (selectedDeliveryDate) {
+                const formattedDate = selectedDeliveryDate.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                selectedDateDisplay.textContent = formattedDate;
+
+                const now = new Date();
+                const currentDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes());
+
+                timeSlots.forEach(slot => {
+                    const timeDiv = document.createElement('div');
+                    timeDiv.classList.add('time-slot');
+                    timeDiv.textContent = slot;
+
+                    let [timeStr, meridiem] = slot.split(' ');
+                    let [hours, minutes] = timeStr.split(':').map(Number);
+
+                    if (meridiem === 'PM' && hours !== 12) {
+                        hours += 12;
+                    }
+                    if (meridiem === 'AM' && hours === 12) { // Midnight case
+                        hours = 0;
+                    }
+
+                    const slotDateTime = new Date(
+                        selectedDeliveryDate.getFullYear(),
+                        selectedDeliveryDate.getMonth(),
+                        selectedDeliveryDate.getDate(),
+                        hours,
+                        minutes
+                    );
+
+                    if (selectedDeliveryDate.toDateString() === now.toDateString() && slotDateTime < currentDateTime) {
+                        timeDiv.classList.add('unavailable');
+                    } else {
+                        timeDiv.addEventListener('click', () => selectDeliveryTime(slot));
+                    }
+
+                    if (selectedDeliveryTime === slot) {
+                        timeDiv.classList.add('selected-time');
+                    }
+                    timeSlotsContainer.appendChild(timeDiv);
+                });
+            } else {
+                selectedDateDisplay.textContent = 'Select a Delivery Date';
+                const noDateSelected = document.createElement('div');
+                noDateSelected.textContent = 'Please select a date to see available time slots.';
+                noDateSelected.style.gridColumn = '1 / -1';
+                noDateSelected.style.textAlign = 'center';
+                noDateSelected.style.color = 'var(--text-light)';
+                noDateSelected.style.fontStyle = 'italic';
+                timeSlotsContainer.appendChild(noDateSelected);
+            }
+            document.getElementById('timeSlots').classList.remove('error');
+            document.querySelector('.time-picker-section').classList.remove('error');
+        }
+
+        function selectDeliveryTime(time) {
+            const currentlySelectedTimeSlot = document.querySelector('.time-slot.selected-time');
+            if (currentlySelectedTimeSlot) {
+                currentlySelectedTimeSlot.classList.remove('selected-time');
+            }
+
             selectedDeliveryTime = time;
-            renderTimeSlots(); // Re-render to show selected time highlight
-            clearValidationError(document.querySelector('.time-picker-section'));
+            const newSelectedTimeSlot = Array.from(document.querySelectorAll('.time-slot'))
+                                                    .find(slotDiv => slotDiv.textContent === time);
+            if (newSelectedTimeSlot) {
+                newSelectedTimeSlot.classList.add('selected-time');
+            }
+
+            document.getElementById('timeSlots').classList.remove('error');
+            document.querySelector('.time-picker-section').classList.remove('error');
         }
 
+        function updateTimeZoneDisplay() {
+            const timeZoneElement = document.getElementById('currentTimeZone');
+            // Use the current time to get the Manila time string
+            const formatManilaTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit', hour12: true });
+            timeZoneElement.textContent = `Asia/Manila (${formatManilaTime})`;
+        }
 
-        // --- Form Submission & Validation ---
+        function toggleOrderType() {
+            const orderType = document.getElementById('orderType').value;
+            const isDelivery = (orderType === 'delivery');
 
-        /**
-         * Validates the form inputs before submission.
-         * @returns {boolean} True if the form is valid, false otherwise.
-         */
-        function validateForm() {
-            let isValid = true;
+            const deliveryDetails = document.getElementById('deliveryDetails');
+            const shippingAddressSelect = document.getElementById('shippingAddressSelect');
+            const selectedDeliveryFeeDisplay = document.getElementById('selectedDeliveryFeeDisplay');
+            const pickupDetails = document.getElementById('pickupDetails');
+            const dateTimePickerContainer = document.querySelector('.date-time-picker-container');
+            const deliveryDateInput = document.getElementById('deliveryDate');
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            const datePickerSection = document.querySelector('.date-picker-section');
+            const timePickerSection = document.querySelector('.time-picker-section');
+            const deliveryDateTimeH3 = document.getElementById('deliveryDateTimeHeader');
 
-            const fullName = document.getElementById('fullName');
-            const email = document.getElementById('email');
-            const address = document.getElementById('address');
-            const contactNumber = document.getElementById('contactNumber');
-            const orderType = document.getElementById('orderType');
-            const paymentMethod = document.getElementById('paymentMethod');
+            // Hide all initially, then show based on selection
+            deliveryDetails.style.display = 'none';
+            shippingAddressSelect.removeAttribute('required');
+            shippingAddressSelect.value = ''; // Reset select value
+            selectedDeliveryFeeDisplay.style.display = 'none'; // Hide fee display
+            selectedDeliveryFeeDisplay.textContent = ''; // Clear fee text
 
-            // Reset previous errors
-            clearAllValidationErrors();
+            pickupDetails.style.display = 'none';
+            dateTimePickerContainer.style.display = 'none';
+            if (deliveryDateTimeH3) deliveryDateTimeH3.style.display = 'none';
+            deliveryFee = 0; // Default to no delivery fee
 
-            // Validate Full Name
-            if (!fullName.value.trim()) {
-                markAsInvalid(fullName, 'Full Name is required.');
-                isValid = false;
+            // Clear date/time selections when order type changes
+            selectedDeliveryDate = null;
+            selectedDeliveryTime = null;
+            deliveryDateInput.value = '';
+            displayTimeSlots(); // Update display for time slots to clear it
+            deliveryDateInput.classList.remove('error');
+            timeSlotsContainer.classList.remove('error');
+            datePickerSection.classList.remove('error');
+            timePickerSection.classList.remove('error');
+
+            if (isDelivery) {
+                deliveryDetails.style.display = 'block';
+                dateTimePickerContainer.style.display = 'grid'; // Keep this as grid for date/time layout
+                if (deliveryDateTimeH3) deliveryDateTimeH3.style.display = 'block';
+                shippingAddressSelect.setAttribute('required', 'required');
+                // The delivery fee will be set by handleDeliveryLocationChange based on selection
+                handleDeliveryLocationChange(); // Call to set initial fee if an option is pre-selected or to reset
+                renderCalendar(); // Re-render
+            } else if (orderType === 'pickup') {
+                pickupDetails.style.display = 'block';
+                // No delivery fee for pickup, already set above
             }
+            updateCartDisplay();
+        }
 
-            // Validate Email
-            if (!email.value.trim()) {
-                markAsInvalid(email, 'Email Address is required.');
-                isValid = false;
-            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-                markAsInvalid(email, 'Please enter a valid email address.');
-                isValid = false;
-            }
-
-            // Validate Address
-            if (!address.value.trim()) {
-                markAsInvalid(address, 'Address is required.');
-                isValid = false;
-            }
-
-            // Validate Contact Number
-            if (!contactNumber.value.trim()) {
-                markAsInvalid(contactNumber, 'Contact Number is required.');
-                isValid = false;
-            } else if (!/^\d{11}$/.test(contactNumber.value)) {
-                markAsInvalid(contactNumber, 'Contact Number must be 11 digits.');
-                isValid = false;
-            }
-
-            // Validate Order Type
-            if (!orderType.value) {
-                markAsInvalid(orderType, 'Please select an Order Type.');
-                isValid = false;
-            }
-
-            // Specific validation for Delivery/Meet Up
-            if (orderType.value === 'delivery' || orderType.value === 'meetup') {
-                if (!shippingAddressSelect.value) {
-                    markAsInvalid(shippingAddressSelect, 'Please select a Delivery Location.');
-                    isValid = false;
-                }
-                if (!selectedDeliveryDate) {
-                    markAsInvalid(document.querySelector('.date-picker-section'), 'Please select a Delivery Date.');
-                    isValid = false;
-                }
-                if (!selectedDeliveryTime) {
-                    markAsInvalid(document.querySelector('.time-picker-section'), 'Please select a Delivery Time.');
-                    isValid = false;
-                }
-            }
-
-            // Validate Cart
-            if (Object.keys(cart).length === 0) {
+        // Function to proceed to checkout section
+        function proceedToCheckout() {
+            const orderForm = document.getElementById('orderForm');
+            const orderTabContent = document.getElementById('orderTabContent');
+            const mainTabs = document.querySelector('.main-tabs');
+            
+            // Check if cart is empty before proceeding
+            const selectedItems = products.filter(product => cart[product.id] > 0);
+            if (selectedItems.length === 0) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Cart Empty',
-                    text: 'Please add items to your cart before placing an order.',
+                    title: 'No Items Selected',
+                    text: 'Please select at least one item to order before proceeding to checkout.',
+                    confirmButtonText: 'OK',
+                    customClass: {
+                        confirmButton: 'swal-button'
+                    }
+                });
+                // Ensure we are on the 'Order Here' tab if the cart is empty
+                showMainTab('order');
+                return;
+            }
+
+            orderForm.style.display = 'block'; // Show the order form
+            orderForm.scrollIntoView({ behavior: 'smooth', block: 'start' }); // Scroll to the form
+        }
+
+        let firstErrorField = null; // Define this globally if not already
+        let isValid = true; // Define this globally if not already
+
+        function validateForm() {
+            isValid = true;
+            firstErrorField = null;
+
+            // Validate common fields
+            checkField('fullName');
+            checkField('email');
+            checkField('address');
+            checkField('contactNumber');
+            checkField('orderType');
+            checkField('paymentMethod');
+
+            const orderType = document.getElementById('orderType').value;
+            const isDelivery = orderType === 'delivery';
+
+            if (isDelivery) {
+                checkField('shippingAddressSelect', 'deliveryDetails');
+
+                if (!selectedDeliveryDate) {
+                    document.getElementById('deliveryDate').classList.add('error');
+                    document.querySelector('.date-picker-section').classList.add('error');
+                    if (!firstErrorField) firstErrorField = document.getElementById('deliveryDate');
+                    isValid = false;
+                } else {
+                    document.getElementById('deliveryDate').classList.remove('error');
+                    document.querySelector('.date-picker-section').classList.remove('error');
+                }
+
+                if (!selectedDeliveryTime) {
+                    document.getElementById('timeSlots').classList.add('error');
+                    document.querySelector('.time-picker-section').classList.add('error');
+                    if (!firstErrorField && selectedDeliveryDate) {
+                        firstErrorField = document.getElementById('timeSlots');
+                    } else if (!firstErrorField) {
+                        firstErrorField = document.getElementById('timeSlots');
+                    }
+                    isValid = false;
+                } else {
+                    document.getElementById('timeSlots').classList.remove('error');
+                    document.querySelector('.time-picker-section').classList.remove('error');
+                }
+            } else if (orderType === 'pickup') {
+                // Validate pickup location if pickup is selected
+                checkField('pickupLocation', 'pickupDetails');
+            }
+
+
+            // Check if cart is empty - moved to proceedToCheckout for better UX
+            // However, it's good to keep this check here as a final safeguard before submission
+            const selectedItems = products.filter(product => cart[product.id] > 0);
+            if (selectedItems.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No Items Selected',
+                    text: 'Please select at least one item to order.',
+                    confirmButtonText: 'OK',
                     customClass: {
                         confirmButton: 'swal-button'
                     }
                 });
                 isValid = false;
+                document.getElementById('productCatalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
-            // Validate Payment Method
-            if (!paymentMethod.value) {
-                markAsInvalid(paymentMethod, 'Please select a Payment Method.');
-                isValid = false;
+            if (!isValid && firstErrorField) {
+                firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstErrorField.focus();
             }
 
             return isValid;
         }
 
-        /**
-         * Marks an input element as invalid and displays an error message.
-         * @param {HTMLElement} element The input element to mark.
-         * @param {string} message The error message to display.
-         */
-        function markAsInvalid(element, message) {
-            element.classList.add('error');
-            let errorSpan = element.nextElementSibling; // Check for existing error span
-            if (errorSpan && errorSpan.classList.contains('error-message')) {
-                errorSpan.textContent = message;
+        function checkField(fieldId, sectionId = null) {
+            const field = document.getElementById(fieldId);
+            const section = sectionId ? document.getElementById(sectionId) : field; // Use section for error highlighting if provided
+            const value = field.value.trim();
+
+            if (field.hasAttribute('required') && value === '' || (field.tagName === 'SELECT' && value === '')) {
+                field.classList.add('error');
+                section.classList.add('error');
+                if (!firstErrorField) firstErrorField = field;
+                isValid = false;
             } else {
-                errorSpan = document.createElement('span');
-                errorSpan.classList.add('error-message');
-                errorSpan.style.color = var(--error-color);
-                errorSpan.style.fontSize = '0.85em';
-                errorSpan.style.marginTop = '5px';
-                errorSpan.textContent = message;
-                element.parentNode.insertBefore(errorSpan, element.nextSibling);
+                field.classList.remove('error');
+                section.classList.remove('error');
             }
         }
 
-        /**
-         * Clears validation error for a specific element.
-         * @param {HTMLElement} element The element to clear error from.
-         */
-        function clearValidationError(element) {
-            element.classList.remove('error');
-            const errorSpan = element.nextElementSibling;
-            if (errorSpan && errorSpan.classList.contains('error-message')) {
-                errorSpan.remove();
-            }
-        }
 
-        /**
-         * Clears all validation errors from the form.
-         */
-        function clearAllValidationErrors() {
-            document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-            document.querySelectorAll('.error-message').forEach(el => el.remove());
-        }
-
-
-        // Form submission event listener
-        document.getElementById('order-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
+        function submitOrder() {
             if (!validateForm()) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Validation Error',
-                    text: 'Please fill in all required fields correctly.',
-                    customClass: {
-                        confirmButton: 'swal-button'
-                    }
-                });
                 return;
             }
 
-            // Prepare order data
-            const orderItems = Object.keys(cart).map(productId => {
-                const product = products.find(p => p.id === productId);
-                return {
-                    id: productId,
-                    name: product.name,
-                    quantity: cart[productId],
-                    price: product.price
-                };
-            });
+            const selectedItems = products.filter(product => cart[product.id] > 0).map(product => ({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: cart[product.id]
+            }));
 
-            const customerDetails = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                address: document.getElementById('address').value,
-                contactNumber: document.getElementById('contactNumber').value,
-                orderType: document.getElementById('orderType').value,
-                shippingAddress: document.getElementById('shippingAddressSelect').value,
-                pickupLocation: document.getElementById('pickupLocation').value,
-                deliveryDate: selectedDeliveryDate ? selectedDeliveryDate.toLocaleDateString('en-US') : '',
-                deliveryTime: selectedDeliveryTime || '',
+            const subTotalAmount = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const finalTotalAmount = subTotalAmount + deliveryFee;
+
+            const orderType = document.getElementById('orderType').value;
+
+            var formData = {
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                address: document.getElementById('address').value.trim(),
+                contactNumber: document.getElementById('contactNumber').value.trim(),
+                orderType: orderType,
+                shippingAddress: orderType === 'delivery' ? document.getElementById('shippingAddressSelect').value.trim() : 'N/A (Pickup)',
+                pickupLocation: orderType === 'pickup' ? document.getElementById('pickupLocation').value.trim() : 'N/A (Delivery)',
                 paymentMethod: document.getElementById('paymentMethod').value,
-                remarks: document.getElementById('remarks').value,
+                remarks: document.getElementById('remarks').value.trim(),
+                deliveryDate: orderType === 'delivery' && selectedDeliveryDate ? selectedDeliveryDate.toLocaleDateString('en-US') : 'N/A (Pickup)',
+                deliveryTime: orderType === 'delivery' && selectedDeliveryTime ? selectedDeliveryTime : 'N/A (Pickup)',
+                orderedItems: JSON.stringify(selectedItems),
+                subTotalAmount: subTotalAmount,
                 deliveryFee: deliveryFee,
-                totalAmount: parseFloat(totalAmountDisplay.textContent.replace('₱', '')) // Get current total from display
+                totalAmount: finalTotalAmount
             };
 
-            const orderData = {
-                customer: customerDetails,
-                items: orderItems
-            };
-
-            // Show loading spinner
             Swal.fire({
                 title: 'Placing Order...',
-                html: 'Please wait while we process your order.',
+                text: 'Please wait while we process your order.',
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
                 }
             });
 
-            try {
-                const response = await fetch(`${WEB_APP_URL}?action=submitOrder`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(orderData),
-                });
+            // Check if running in Apps Script environment
+            if (typeof google === 'undefined' || typeof google.script === 'undefined') {
+                console.warn('google.script.run is not available. Simulating success handler.');
+                setTimeout(() => {
+                    Swal.close();
+                    showSuccessMessage('Order simulated successfully!', formData.paymentMethod, formData.orderType);
+                }, 2000);
+                return;
+            }
 
-                const result = await response.json();
-
-                if (result.status === 'success') {
-                    // Show success message with order details
-                    let orderSummaryHtml = `
-                        <p><strong>Order ID:</strong> ${result.orderId}</p>
-                        <p><strong>Total Amount:</strong> ₱${result.totalAmount.toFixed(2)}</p>
-                        <p>We've received your order and will contact you shortly to confirm the details and provide payment instructions.</p>
-                        <br>
-                        <div class="payment-instructions" style="border-color: var(--secondary-color);">
-                            <h4>Payment Instructions for GCASH:</h4>
-                            <p><strong>Account Name:</strong> SWEET MARY'S</p>
-                            <p><strong>GCASH Number:</strong> 09123456789</p>
-                            <p>Please send your payment to the GCASH number above. Once sent, kindly send a screenshot of your transaction to our Facebook page: <a href="https://www.facebook.com/sweetmarys" target="_blank">Sweet Mary's Facebook Page</a></p>
-                            <p>Thank you for your order!</p>
-                            <img src="https://i.ibb.co/2st849F/gcash.png" alt="GCash QR Code" style="margin-top: 10px;">
-                        </div>
-                    `;
-
+            google.script
+                .run
+                .withSuccessHandler(function (response) {
+                    Swal.close();
+                    showSuccessMessage(response, formData.paymentMethod, formData.orderType);
+                })
+                .withFailureHandler(function (error) {
+                    Swal.close();
                     Swal.fire({
-                        icon: 'success',
-                        title: 'Order Placed Successfully!',
-                        html: orderSummaryHtml,
+                        icon: 'error',
+                        title: 'Order Failed!',
+                        text: 'There was an error submitting your order: ' + error.message,
                         confirmButtonText: 'OK',
                         customClass: {
                             confirmButton: 'swal-button'
                         }
-                    }).then(() => {
-                        clearCart();
-                        document.getElementById('order-form').reset(); // Reset form fields
-                        selectedDeliveryDate = null; // Clear selected date/time
-                        selectedDeliveryTime = null;
-                        renderCalendar(); // Reset calendar display
-                        renderTimeSlots(); // Clear time slots display
-                        toggleOrderType(); // Reset order type display
-                        document.getElementById('selectedDateDisplay').textContent = 'Select a Delivery Date';
                     });
-                } else {
+                })
+                .submitOrder(formData);
+        }
+
+        function showSuccessMessage(response, paymentMethod, orderType) {
+            let paymentInstructionsHTML = '';
+            // GCash QR code image is from your previous provided image.
+            const gcashQrCodeSrc = "https://i.ibb.co/zWfVBnfD/image.png";
+
+            if (paymentMethod === 'GCASH') {
+                paymentInstructionsHTML = `
+                    <div class="payment-instructions" style="background-color: #fff8e1; border-color: #ffcc66;">
+                        <h4 style="color: #c25c00;">GCASH Payment Instructions</h4>
+                        <p>Please send your payment to:</p>
+                        <p><strong>GCASH Name:</strong> MARY YVETTE C.</p>
+                        <p><strong>GCASH Number:</strong> 0966 224 8619</p>
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="${gcashQrCodeSrc}" alt="GCash QR Code">
+                        </div>
+                        <p><strong>Important:</strong> After sending, please send a screenshot of your transaction to our Facebook page for confirmation:</p>
+                        <p><a href="https://www.facebook.com/profile.php?id=100063710546594" target="_blank">Sweet Mary's Facebook Page</a></p>
+                        <p>Your order will be processed upon payment confirmation.</p>
+                    </div>
+                `;
+            } else if (paymentMethod === 'CASH') {
+                paymentInstructionsHTML = `
+                    <div class="payment-instructions" style="background-color: #e8ffe8; border-color: #ccffcc;">
+                        <h4 style="color: #2e8b57;">CASH Payment Instructions</h4>
+                        <p>Please prepare the exact amount for your order upon ${orderType === 'delivery' ? 'delivery' : 'pickup'}.</p>
+                        ${orderType === 'delivery' ? '<p>Our rider will collect the payment when your delicious treats arrive!</p>' : '<p>Payment will be collected upon pickup at our designated location.</p>'}
+                    </div>
+                `;
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Order Placed Successfully!',
+                html: `<p>Thank you for your order!</p><p>We'll send a confirmation to your email shortly.</p>${paymentInstructionsHTML}`,
+                confirmButtonText: 'Great!',
+                customClass: {
+                    confirmButton: 'swal-button'
+                },
+                didClose: () => { // <-- THIS IS THE KEY SECTION
+                    // 1. Reset the main order form fields (text inputs, textareas, number inputs)
+                    document.getElementById('orderForm').reset();
+
+                    // 2. Clear the cart data (JavaScript object)
+                    cart = {};
+
+                    // 3. Update the UI to reflect the empty cart
+                    updateCartDisplay();
+
+                    // 4. Reset product quantities displayed on the menu (if applicable)
+                    // This ensures the quantity counters next to each product are reset to 0
+                    renderProducts(); // Assumes this function re-renders product cards based on 'cart'
+
+                    // 5. Reset order type dropdown to default empty state and re-trigger its logic
+                    document.getElementById('orderType').value = '';
+                    toggleOrderType(); // This function will hide/show delivery/pickup sections, reset fees, clear date/time inputs etc.
+
+                    // 6. Reset delivery date and time selections (JavaScript variables)
+                    selectedDeliveryDate = null;
+                    selectedDeliveryTime = null;
+
+                    // 7. Reset calendar and time slot displays
+                    currentMonth = new Date().getMonth(); // Reset calendar to current month
+                    currentYear = new Date().getFullYear(); // Reset calendar to current year
+                    renderCalendar(); // Re-render calendar to show current month
+                    displayTimeSlots(); // Clear and re-render time slots (will show "Please select a date...")
+
+                    // 8. Ensure time zone display is updated (though it's mostly static)
+                    updateTimeZoneDisplay();
+
+                    // 9. Hide the order form section itself
+                    document.getElementById('orderForm').style.display = 'none';
+
+                    // 10. Switch back to the 'menu' or 'order' tab for a fresh start
+                    // This is important for UX, bringing the user back to where they can start a new order.
+                    showMainTab('menu'); // Assuming 'menu' is the tab for Browse products
+                    // Or if 'order' is your main product selection tab, use 'showMainTab('order');'
+                }
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('orderForm').reset();
+            selectedDeliveryDate = null;
+            selectedDeliveryTime = null;
+            document.getElementById('deliveryDate').value = '';
+            document.getElementById('selectedDateDisplay').textContent = 'Select a Delivery Date';
+
+            // Reset the shipping address dropdown and its associated fee display
+            const shippingAddressSelect = document.getElementById('shippingAddressSelect');
+            shippingAddressSelect.value = ''; // Reset the dropdown to its default "Select..." option
+            const selectedDeliveryFeeDisplay = document.getElementById('selectedDeliveryFeeDisplay');
+            selectedDeliveryFeeDisplay.textContent = ''; // Clear the fee display text
+            selectedDeliveryFeeDisplay.style.display = 'none'; // Hide the fee display
+
+            // Ensure UI elements that were hidden/shown based on orderType are reset
+            toggleOrderType(); // Call this to reset delivery/pickup sections correctly
+        }
+
+        function clearCart() {
+            cart = {};
+            updateCartDisplay();
+            renderProducts(); // Re-render products to reset quantity displays
+        }
+        // --- Delivery Locations Loading ---
+        function loadDeliveryLocations() {
+            // Simulate google.script.run for local testing
+            if (typeof google === 'undefined' || typeof google.script === 'undefined') {
+                console.warn('google.script.run is not available for delivery locations. Using dummy data.');
+                deliveryLocations = [
+                    { location: 'LAGUNA', fee: 50.00 },
+                    { location: 'ALABANG', fee: 100.00 },
+                    { location: 'MAKATI', fee: 150.00 },
+                    { location: 'QUEZON CITY', fee: 180.00 },
+                    { location: 'TAGUIG', fee: 120.00 }
+                ];
+                populateDeliveryLocationsDropdown();
+                return;
+            }
+
+            google.script.run
+                .withSuccessHandler(function(data) {
+                    deliveryLocations = data;
+                    populateDeliveryLocationsDropdown();
+                })
+                .withFailureHandler(function(error) {
+                    console.error('Failed to load delivery locations:', error.message);
                     Swal.fire({
                         icon: 'error',
-                        title: 'Order Failed',
-                        text: result.message || 'There was an error placing your order. Please try again.',
-                        customClass: {
-                            confirmButton: 'swal-button'
-                        }
+                        title: 'Failed to Load Delivery Areas',
+                        text: 'There was an error fetching delivery location data. Please try again later. Error: ' + error.message,
+                        confirmButtonText: 'OK',
+                        customClass: { confirmButton: 'swal-button' }
                     });
-                }
-            } catch (error) {
-                console.error('Submission error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Network Error',
-                    text: 'Could not connect to the server. Please check your internet connection and try again.',
-                    customClass: {
-                        confirmButton: 'swal-button'
-                    }
-                });
+                    // Fallback to empty if data cannot be loaded
+                    deliveryLocations = [];
+                    populateDeliveryLocationsDropdown();
+                })
+                .getDeliveryLocations(); // Call the Apps Script function
+        }
+
+        // --- Populate Delivery Locations Dropdown ---
+        function populateDeliveryLocationsDropdown() {
+            const selectElement = document.getElementById('shippingAddressSelect');
+            selectElement.innerHTML = '<option value="">Select a delivery location</option>'; // Always start with a default option
+
+            deliveryLocations.forEach(loc => {
+                const option = document.createElement('option');
+                option.value = loc.location; // Store the location name as value
+                option.textContent = `${loc.location} (₱${loc.fee.toFixed(2)})`;
+                option.dataset.fee = loc.fee; // Store fee in a data attribute
+                selectElement.appendChild(option);
+            });
+            // Ensure the display is updated in case an option was already selected (e.g., during form reset)
+            handleDeliveryLocationChange();
+        }
+
+        // --- Handle Delivery Location Change ---
+        function handleDeliveryLocationChange() {
+            const selectElement = document.getElementById('shippingAddressSelect');
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const selectedDeliveryFeeDisplay = document.getElementById('selectedDeliveryFeeDisplay');
+
+            if (selectedOption && selectedOption.value) {
+                deliveryFee = parseFloat(selectedOption.dataset.fee);
+                selectedDeliveryFeeDisplay.textContent = `Delivery Fee: ₱${deliveryFee.toFixed(2)}`;
+                selectedDeliveryFeeDisplay.style.display = 'block';
+            } else {
+                deliveryFee = 0;
+                selectedDeliveryFeeDisplay.textContent = '';
+                selectedDeliveryFeeDisplay.style.display = 'none';
             }
-        });
+            updateCartDisplay(); // Update cart total with new delivery fee
+            selectElement.classList.remove('error'); // Remove error class on selection
+            document.getElementById('deliveryDetails').classList.remove('error');
+        }
     </script>
 </body>
 </html>
