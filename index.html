@@ -1,70 +1,274 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sweet Mary's Order Form</title>
+<html>
+  <head>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Your Restaurant Online Order</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
+    <link rel="stylesheet" href="style.css"> 
+  </head>
+  <body>
+    <header class="header-section">
+      <div class="header-content">
+        <nav class="navigation-menu">
+          <button onclick="showSection('welcome')">ABOUT US</button>
+          <button onclick="showSection('menu')">MENU</button>
+          <button onclick="showSection('order')">ORDER</button>
+          <button onclick="showSection('booknow')">BOOK NOW</button>
+        </nav>
+      </div>
+    </header>
 
-  <!-- ✅ Facebook & Instagram Preview -->
-  <meta property="og:title" content="Sweet Mary's Order Form" />
-  <meta property="og:description" content="Delicious homemade baked goods. Place your order online now!" />
-  <meta property="og:image" content="https://i.postimg.cc/mZXr21dt/mary-logo.png" />
-  <meta property="og:url" content="https://sweetmaryyy.github.io/" />
-  <meta name="theme-color" content="#e6739f" />
+    <div class="content-wrapper">
+      <section id="welcome" class="page-section active">
+        <img src="https://i.ibb.co/4Z9ybLdk/image.png" alt="Restaurant Logo" class="welcome-logo">
+        <h1>Welcome to Food Cravings By Shiloh!</h1>
 
-  <!-- ✅ Twitter preview -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sweet Mary's Order Form">
-  <meta name="twitter:description" content="Delicious homemade baked goods. Place your order now!">
-  <meta name="twitter:image" content="https://i.postimg.cc/mZXr21dt/mary-logo.png">
+        <div class="welcome-image-section">
+          <h2>Frequently Asked Questions (FAQs)</h2>
+          <img src="https://i.ibb.co/BHz50v8B/image.png" alt="FAQs" class="full-width-image">
 
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      min-height: 100vh;
-      background-color: #fff0f5;
-      padding: 20px;
-    }
-    img.logo {
-      max-width: 200px;
-      margin-bottom: 20px;
-    }
-    h1 {
-      font-size: 2em;
-      color: #d63384;
-    }
-    p {
-      margin-top: 10px;
-      color: #333;
-    }
-    .button {
-      background-color: #d63384;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      margin-top: 20px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-  </style>
+          <h2>Menu Guide</h2>
+          <img src="https://i.ibb.co/LKCmk9n/image.png" alt="Menu Guide" class="full-width-image">
+        </div>
+      </section>
 
-  <script>
-    setTimeout(function () {
-      window.location.href = "https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec";
-    }, 1000);
-  </script>
-</head>
-<body>
-  <img src="https://i.postimg.cc/mZXr21dt/mary-logo.png" alt="Sweet Mary's Logo" class="logo" />
-  <h1>Redirecting to Sweet Mary's Order Form...</h1>
-  <p>If you're not redirected automatically, click the button below.</p>
-  <a href="https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec" class="button">Go to Order Form</a>
-</body>
+      <section id="menu" class="page-section">
+        <h2>Our Delicious Menu</h2>
+
+        <div class="menu-category-section">
+          <h3>Main Food Menu</h3>
+          <img src="https://i.ibb.co/whwTdH7J/image.png" alt="Food Menu" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/whwTdH7J/image.png')">
+        </div>
+
+        <div class="menu-category-section">
+          <h3>Other Menu Items</h3>
+          <div class="menu-subcategory-grid">
+            <div class="menu-subcategory-item">
+              <h4>Chicken & Pork</h4>
+              <img src="https://i.ibb.co/Fb5phgDy/image.png" alt="Chicken & Pork Menu" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/Fb5phgDy/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Beef</h4>
+              <img src="https://i.ibb.co/MD8P9d2H/image.png" alt="Beef Menu" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/MD8P9d2H/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Pasta</h4>
+              <img src="https://i.ibb.co/nsjn34g8/image.png" alt="Pasta Menu" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/nsjn34g8/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Pica Pica</h4>
+              <img src="https://i.ibb.co/0RCLSG8N/image.png" alt="Pica Pica Menu" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/0RCLSG8N/image')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Bento Meals</h4>
+              <img src="https://i.ibb.co/HL2VtbTj/image.png" alt="Bento Meals Menu" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/HL2VtbTj/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Sides</h4>
+              <img src="https://i.ibb.co/1GJC2djT/image.png" alt="Sides Menu" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/1GJC2djT/image.png')">
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-category-section">
+          <h3>Celebrate at Home</h3>
+          <div class="menu-subcategory-grid">
+            <div class="menu-subcategory-item">
+              <h4>Party Bundles 2 </h4>
+              <img src="https://i.ibb.co/84QxGF18/image.png" alt="Celebrate at Home 1" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/84QxGF18/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Family Treats</h4>
+              <img src="https://i.ibb.co/hRWBbTXS/image.png" alt="Celebrate at Home 2" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/hRWBbTXS/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Party Bundles 1 </h4>
+              <img src="https://i.ibb.co/C5P2sbdd/image.png" alt="Party Bundles" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/C5P2sbdd/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Party Packages</h4>
+              <img src="https://i.ibb.co/35VnV6WW/image.png" alt="Party Packages" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/35VnV6WW/image.png')">
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-category-section">
+          <h3>4-IN-1 PARTY BOX SET</h3>
+          <div class="menu-subcategory-grid">
+            <div class="menu-subcategory-item">
+              <h4>Party Box</h4>
+              <img src="https://i.ibb.co/DPcXpPhf/image.png" alt="Party Box" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/DPcXpPhf/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Seafood Party</h4>
+              <img src="https://i.ibb.co/RkcW20RH/image.png" alt="Seafood Party" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/RkcW20RH/image.png')">
+            </div>
+            <div class="menu-subcategory-item">
+              <h4>Happy Meryenda</h4>
+              <img src="https://i.ibb.co/5hnw8H0p/image.png" alt="Happy Meryenda" class="full-width-image menu-category-image" onclick="openLightbox('https://i.ibb.co/5hnw8H0p/image.png')">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="order" class="page-section">
+        <h2>Place Your Order</h2>
+        <div class="order-container">
+          <div class="order-items-section" id="orderItemsSection">
+            <div class="cart-summary">
+              <h3>Your Cart (<span id="cartItemCount">0</span> items)</h3>
+              <ul id="cartItemsList">
+                <li id="emptyCartMessage">Your cart is empty.</li>
+              </ul>
+              <div class="cart-total">
+                <p>Subtotal: ₱<span id="cartTotal">0.00</span></p>
+                <p>Delivery Fee: ₱<span id="cartDeliveryFee">0.00</span></p>
+                <strong>Grand Total: ₱<span id="cartGrandTotal">0.00</span></strong>
+              </div>
+              <div class="cart-actions-bottom">
+                <button id="proceedToCheckoutButton" class="action-button primary-button">Proceed to Checkout</button>
+              </div>
+            </div>
+
+            <h3>Select a Menu Item:</h3>
+            <div class="order-item-grid" id="mainMenuItems">
+              <div class="order-item">
+                <img src="https://i.ibb.co/DP2jYL7k/image.png" alt="KUTSINTA WITH A TWIST">
+                <h4>KUTSINTA WITH A TWIST</h4>
+                <button class="select-menu-category-btn" data-category="KUTSINTA WITH A TWIST">View Options</button>
+              </div>
+              <div class="order-item">
+                <img src="https://i.ibb.co/B5PN1Kr0/image.png" alt="CHEESY PUTO WITH A TWIST">
+                <h4>CHEESY PUTO WITH A TWIST</h4>
+                <button class="select-menu-category-btn" data-category="CHEESY PUTO WITH A TWIST">View Options</button>
+              </div>
+              <div class="order-item">
+                <img src="https://i.ibb.co/rRwXcqjP/image.png" alt="SPECIAL MIX IN BILAO">
+                <h4>SPECIAL MIX IN BILAO</h4>
+                <button class="select-menu-category-btn" data-category="SPECIAL MIX IN BILAO">View Options</button>
+              </div>
+              <div class="order-item">
+                <img src="https://i.ibb.co/Fb5phgDy/image.png" alt="Chicken & Pork Menu">
+                <h4>Chicken & Pork</h4>
+                <button class="select-menu-category-btn" data-category="Chicken & Pork">View Options</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-form-section" id="customerDetailsFormSection" style="display: none;">
+            <div class="cart-summary cart-summary-checkout">
+              <h3>Your Order Summary (<span id="checkoutCartItemCount">0</span> items)</h3>
+              <ul id="checkoutCartItemsList">
+              </ul>
+              <div class="cart-total">
+                <p>Subtotal: ₱<span id="checkoutCartTotal">0.00</span></p>
+                <p>Delivery Fee: ₱<span id="checkoutDeliveryFee">0.00</span></p>
+                <strong>Grand Total: ₱<span id="checkoutGrandTotal">0.00</span></strong>
+              </div>
+            </div>
+
+            <h3>Your Details</h3>
+            <form id="orderForm">
+              <label for="fullName">Full Name:</label>
+              <input type="text" id="fullName" name="fullName" required>
+
+              <label for="email">Email Address:</label>
+              <input type="email" id="email" name="email" required>
+
+              <label for="address">Address:</label>
+              <input type="text" id="address" name="address" required>
+
+              <label for="contactNumber">Contact Number:</label>
+              <input type="tel" id="contactNumber" name="contactNumber" required>
+
+              <label for="orderType">Order Type:</label>
+              <select id="orderType" name="orderType">
+                <option value="select">SELECT</option>
+                <option value="deliver">Delivery</option>
+                <option value="pickup">Pickup</option>
+              </select>
+
+              <div id="deliveryFields" style="display: none;">
+                <label for="deliveryLocation">Delivery Area:</label>
+                <select id="deliveryLocation" name="deliveryLocation">
+                  <option value="">Select a location</option>
+                </select>
+                <label for="deliveryDate">Delivery Date:</label>
+                <input type="text" id="deliveryDate" name="deliveryDate" placeholder="MM/DD/YYYY">
+
+                <label for="deliveryTime">Delivery Time:</label>
+                <select id="deliveryTime" name="deliveryTime">
+                  <option value="">Select a time</option>
+                </select>
+              </div>
+
+              <div id="pickupFields" style="display: none;">
+                <label for="pickupLocation">Pickup Location (Specific):</label>
+                <input type="text" id="pickupLocation" name="pickupLocation" value="SAN PABLO CITY LAGUNA" readonly>
+              </div>
+
+              <label for="paymentMethod">Payment Method:</label>
+              <select id="paymentMethod" name="paymentMethod" required>
+                <option value="CASH">CASH</option>
+                <option value="GCASH">GCASH</option>
+                <option value="BANK TRANSFER">BANK TRANSFER</option>
+              </select>
+
+              <label for="remarks">Remarks (e.g., delivery instructions, special requests):</label>
+              <textarea id="remarks" name="remarks" rows="3"></textarea>
+
+              <button type="submit" class="submit-order-btn primary-button">Place Order</button>
+              <button type="button" class="back-to-cart-btn secondary-button" onclick="showCartOverview()">Back to Cart</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section id="booknow" class="page-section">
+        <div class="reservation-container">
+          <div class="reservation-form">
+            <div class="availability-dashboard">
+              <img src="https://i.ibb.co/4Z9ybLdk/image.png" alt="Restaurant Logo" class="welcome-logo">
+              <h2>Book Your Reservation</h2>
+              <h3>Your Information</h3>
+              <form id="bookNowForm">
+                <label for="reservationFullName">Full Name:</label>
+                <input type="text" id="reservationFullName" name="reservationFullName" placeholder="Full Name" required> <label for="reservationEmail">Email:</label>
+                <input type="email" id="reservationEmail" name="reservationEmail" placeholder="Email" required> <label for="reservationContact">Contact Number:</label>
+                <input type="tel" id="reservationContact" name="reservationContact" placeholder="Contact Number" required> <h3>Reservation Details</h3>
+
+                <label for="reservationDateDropdown">Select Date:</label>
+                <select id="reservationDateDropdown" name="reservationDateDropdown" required> <option value="">Select Date</option>
+                </select>
+
+                <label for="reservationTime">Select Time:</label>
+                <select id="reservationTime" name="reservationTime" required> <option value="">Select Time</option>
+                </select>
+
+                <label for="reservationRemarks">Any special requests or notes (optional):</label>
+                <textarea id="reservationRemarks" name="reservationRemarks" placeholder="br notes"></textarea> <button type="submit" class="primary-button">Submit Reservation</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="menuDetailModal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal-btn" onclick="closeMenuDetailModal()">&times;</span>
+          <div id="modalMenuDetailsContent">
+          </div>
+        </div>
+      </div>
+
+      <div id="lightbox" class="lightbox" onclick="closeLightbox(event)">
+        <span class="close-btn" onclick="closeLightbox(event)">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+      </div>
+
+    <script src="script.js"></script> 
+  </body>
 </html>
