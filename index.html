@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sweet Mary's Order Form</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-        rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sweet Mary's Order Form</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- Styles -->
+  <style>
 :root {
     --primary-color: #ff6f61; /* A vibrant, sweet red/orange */
     --secondary-color: #ffc107; /* A warm yellow/gold */
@@ -863,7 +866,7 @@ form button[type='button']:hover {
                 <button type="button" class="proceed-checkout-button" onclick="proceedToCheckout()">Proceed to Checkout</button>
             </div>
 
-            <form id="orderForm" style="display: none;">
+            <form id="order-form">
                 <h3 class="section-title">Your Details</h3>
                 <div class="form-group">
                     <label for="fullName">Full Name <span class="required-star">*</span></label>
@@ -2018,7 +2021,11 @@ function handleDeliveryLocationChange() {
     selectElement.classList.remove('error'); // Remove error class on selection
     document.getElementById('deliveryDetails').classList.remove('error');
 }
-          document.getElementById("order-form").addEventListener("submit", function (e) {
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("order-form");
+  if (!form) return; // Prevents error if the form is not found
+
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const formData = new FormData(this);
@@ -2030,7 +2037,7 @@ function handleDeliveryLocationChange() {
       .then((response) => response.text())
       .then((result) => {
         document.getElementById("response-message").innerText = "✅ Order submitted successfully!";
-        document.getElementById("order-form").reset();
+        form.reset();
       })
       .catch((error) => {
         document.getElementById("response-message").style.color = "red";
@@ -2038,6 +2045,7 @@ function handleDeliveryLocationChange() {
         console.error("Error:", error);
       });
   });
-    </script>
+});
+</script>
 </body>
 </html>
