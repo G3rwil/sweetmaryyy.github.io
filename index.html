@@ -15,14 +15,18 @@
   <meta property="og:type" content="website" />
   <meta property="fb:app_id" content="1234567890" />
 
-  <!-- ✅ Twitter Card -->
+  <!-- Optional Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- ✅ Delayed Redirect for Facebook Preview -->
-  <meta http-equiv="refresh" content="2;url=https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec" />
 </head>
 <body>
   <p>Redirecting you to Sweet Mary's Order Page...<br />
      If you're not redirected automatically, <a href="https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec">click here</a>.</p>
+
+  <!-- ✅ JavaScript Redirect after 2 seconds -->
+  <script>
+    setTimeout(function() {
+      window.location.href = "https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec";
+    }, 2000);
+  </script>
 </body>
 </html>
