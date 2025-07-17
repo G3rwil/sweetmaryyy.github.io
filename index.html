@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sweet Mary's Online Order Form</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Sweet Mary's Online Order</title>
+    <link rel="icon" href="https://i.ibb.co/Xz9F31h/sweet-mary-s-logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        /* General Styles */
         :root {
-            --primary-color: #f7a072; /* A warm, inviting peach/orange */
-            --secondary-color: #6a0572; /* Deep purple */
+            --primary-color: #ff91a4; /* Sweet Pink */
+            --secondary-color: #a4dded; /* Light Blue */
+            --accent-color: #ffcc66; /* Sunny Yellow */
             --text-dark: #333;
-            --text-light: #555;
-            --bg-light: #f4f7f6;
-            --border-color: #e0e0e0;
-            --success-color: #4CAF50;
-            --error-color: #f44336;
-            --warning-color: #ff9800;
+            --text-light: #666;
+            --bg-light: #f9f9f9;
+            --border-color: #ddd;
+            --error-red: #e74c3c;
+            --error-bg: #fdeded;
         }
 
         body {
@@ -26,411 +28,438 @@
             background-color: var(--bg-light);
             color: var(--text-dark);
             line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: 700;
-            letter-spacing: 1px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+
+        h2, h3, h4 {
+            color: var(--text-dark);
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        /* Tabs */
         .main-tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             border-bottom: 2px solid var(--border-color);
         }
 
-        .tab-button {
-            background: none;
+        .main-tabs .tab-button {
+            background-color: transparent;
             border: none;
             padding: 15px 25px;
             font-size: 1.1em;
-            font-weight: 600;
-            color: var(--text-light);
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
             outline: none;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+            position: relative;
+            overflow: hidden;
         }
 
-        .tab-button:hover {
+        .main-tabs .tab-button:hover {
             color: var(--primary-color);
         }
 
-        .tab-button.active {
-            color: var(--secondary-color);
-            border-bottom: 3px solid var(--secondary-color);
+        .main-tabs .tab-button.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .main-tabs .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
         }
 
         .tab-content {
             display: none;
+            padding: 20px 0;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        /* --- Category Filter --- */
-        .category-filter {
-            margin-bottom: 25px;
+        /* Menu Content */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .menu-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .menu-item-info {
+            padding: 15px;
+        }
+
+        .menu-item-info h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-size: 1.3em;
+        }
+
+        .menu-item-info p {
+            font-size: 1.1em;
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+
+        /* Order Section */
+        .category-tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
             justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
-        .category-button {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
+        .category-tab-button {
+            background-color: #f0f0f0;
             border: 1px solid var(--border-color);
-            padding: 8px 15px;
             border-radius: 20px;
-            cursor: pointer;
+            padding: 8px 18px;
             font-size: 0.9em;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-dark);
         }
 
-        .category-button:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-
-        .category-button.active {
+        .category-tab-button:hover {
             background-color: var(--secondary-color);
-            color: white;
+            color: #fff;
             border-color: var(--secondary-color);
-            font-weight: 600;
         }
 
-        /* --- Product Catalog --- */
+        .category-tab-button.active {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            font-weight: bold;
+        }
+
         .product-catalog {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 30px;
         }
 
         .product-card {
             background-color: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            text-align: center;
+            display: flex;
+            flex-direction: column;
             transition: transform 0.2s ease;
-            position: relative;
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .product-info {
             padding: 15px;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-        }
-
-        .product-card.out-of-stock {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .product-card.out-of-stock .product-status {
-            color: var(--error-color);
-            font-weight: 600;
-        }
-
-        .product-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
+        .product-info h4 {
+            margin-top: 0;
             margin-bottom: 10px;
-        }
-
-        .product-name {
-            font-size: 1.1em;
-            font-weight: 600;
-            margin: 10px 0 5px;
-            min-height: 2.4em; /* Ensure consistent height for names */
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .product-price {
-            font-size: 1.2em;
             color: var(--primary-color);
-            font-weight: 700;
-            margin-bottom: 10px;
+            font-size: 1.2em;
         }
 
-        .product-status {
-            font-size: 0.9em;
-            color: var(--success-color);
-            font-weight: 500;
-            margin-bottom: 10px;
+        .product-info p {
+            font-size: 1.1em;
+            color: var(--text-dark);
+            margin-bottom: 5px;
         }
 
-        .out-of-stock-text {
-            color: var(--error-color) !important;
-        }
-
-        .product-quantity-control {
+        .quantity-control {
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-top: 10px;
             gap: 10px;
-            margin-top: auto; /* Pushes control to the bottom */
-            padding-top: 10px;
         }
 
-        .quantity-btn {
+        .quantity-control button {
             background-color: var(--secondary-color);
-            color: white;
+            color: #fff;
             border: none;
             border-radius: 50%;
             width: 30px;
             height: 30px;
             font-size: 1.2em;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: background-color 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .quantity-btn:hover:not(:disabled) {
-            background-color: #8a2be2; /* Darker purple on hover */
+        .quantity-control button:hover {
+            background-color: #7bbcdb;
         }
 
-        .quantity-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .quantity-display {
+        .quantity-control span {
             font-size: 1.1em;
-            font-weight: 600;
-            width: 40px;
+            font-weight: bold;
+            min-width: 25px;
             text-align: center;
         }
 
-        .no-products-message {
-            grid-column: 1 / -1;
-            text-align: center;
-            font-style: italic;
-            color: var(--text-light);
-            padding: 20px;
+        .product-status {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
         }
 
-        /* --- Cart Summary --- */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        .status-badge.available {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.out-of-stock, .status-badge.unavailable {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-badge.coming-soon, .status-badge.pre-order {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+
+        /* Cart Summary */
         .cart-summary {
-            background-color: #f9f9f9;
-            border: 1px solid var(--border-color);
+            background-color: #f0f8ff;
+            border: 1px solid var(--secondary-color);
             border-radius: 8px;
             padding: 20px;
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
-        .cart-summary h2 {
-            text-align: center;
+        .cart-summary h3 {
             color: var(--secondary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
             margin-top: 0;
-            margin-bottom: 15px;
         }
 
-        .cart-items {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-bottom: 15px;
+        #cartItemsList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .cart-item {
+        #cartItemsList li {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             padding: 8px 0;
-            border-bottom: 1px dashed var(--border-color);
-            font-size: 0.95em;
+            border-bottom: 1px dotted #eee;
         }
 
-        .cart-item:last-child {
+        #cartItemsList li:last-child {
             border-bottom: none;
         }
 
-        .item-details {
-            flex-grow: 1;
-        }
-
-        .item-details span {
-            font-weight: 600;
-        }
-
-        .item-actions {
-            display: flex;
-            align-items: center;
-            gap: 5px;
+        .cart-subtotal-item, .delivery-fee-item {
+            font-weight: bold;
+            padding-top: 10px !important;
+            border-top: 1px solid var(--border-color) !important;
+            margin-top: 10px;
         }
 
         .cart-total {
-            border-top: 2px solid var(--border-color);
-            padding-top: 15px;
-            margin-top: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
-        }
-
-        .total-row {
             display: flex;
             justify-content: space-between;
-        }
-
-        .total-row strong {
-            color: var(--secondary-color);
-            font-size: 1.2em;
-        }
-
-        .checkout-button, .clear-cart-button {
-            width: 100%;
-            padding: 12px;
+            padding-top: 15px;
             margin-top: 15px;
+            border-top: 2px solid var(--secondary-color);
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .proceed-button, .submit-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: #fff;
             border: none;
             border-radius: 5px;
-            font-size: 1.1em;
-            font-weight: 600;
+            font-size: 1.2em;
             cursor: pointer;
+            margin-top: 20px;
             transition: background-color 0.2s ease;
         }
 
-        .checkout-button {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .checkout-button:hover {
-            background-color: #e68d60;
+        .proceed-button:hover, .submit-button:hover {
+            background-color: #e67d8f;
         }
 
         .clear-cart-button {
-            background-color: #f0f0f0;
-            color: var(--text-dark);
-            border: 1px solid var(--border-color);
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.2s ease;
         }
 
         .clear-cart-button:hover {
-            background-color: #e0e0e0;
+            background-color: #d32f2f;
         }
 
-        /* --- Order Form --- */
-        #orderForm {
-            display: none; /* Hidden by default, shown by proceedToCheckout */
-            padding-top: 30px;
-        }
-
-        .form-section {
-            background-color: #f9f9f9;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+        /* Order Form */
+        .order-form {
+            display: none; /* Hidden by default */
+            margin-top: 30px;
             padding: 20px;
-            margin-bottom: 25px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-section.error {
-            border-color: var(--error-color);
-            box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
-        }
-
-        .form-section h3 {
-            color: var(--secondary-color);
-            margin-top: 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            background-color: #fdfdfd;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
         .form-group {
             margin-bottom: 15px;
         }
 
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: 600;
-            color: var(--text-light);
+            font-weight: bold;
+            color: var(--text-dark);
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 10px 12px;
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
             border: 1px solid var(--border-color);
             border-radius: 5px;
-            font-family: 'Poppins', sans-serif;
             font-size: 1em;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            box-sizing: border-box; /* Include padding in width */
+            transition: border-color 0.2s ease;
         }
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="tel"]:focus,
-        textarea:focus,
-        select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(247, 160, 114, 0.2);
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
+            border-color: var(--primary-color);
         }
 
-        input.error, select.error, textarea.error {
-            border-color: var(--error-color);
-            box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.2);
+        .form-group input.error,
+        .form-group select.error,
+        .form-group textarea.error {
+            border-color: var(--error-red);
+            box-shadow: 0 0 0 2px var(--error-red);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+        .delivery-details, .pickup-details {
+            border: 1px dashed var(--secondary-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            background-color: #f0f8ff;
         }
 
-        /* --- Date/Time Picker --- */
+        .delivery-details.error, .pickup-details.error {
+            border-color: var(--error-red);
+            background-color: var(--error-bg);
+        }
+
         .date-time-picker-container {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
             margin-top: 20px;
         }
+
         @media (min-width: 768px) {
             .date-time-picker-container {
                 grid-template-columns: 1fr 1fr;
@@ -438,119 +467,88 @@
         }
 
         .date-picker-section, .time-picker-section {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border: 1px dashed var(--accent-color);
             padding: 15px;
-            background-color: #fff;
-            transition: border-color 0.3s ease;
+            border-radius: 8px;
+            background-color: #fffdf5;
         }
 
         .date-picker-section.error, .time-picker-section.error {
-            border-color: var(--error-color);
-            box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.2);
+            border-color: var(--error-red);
+            background-color: var(--error-bg);
         }
 
-        .date-picker-header, .time-picker-header {
+        .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
         }
 
-        .date-picker-header h4, .time-picker-header h4 {
-            margin: 0;
-            color: var(--secondary-color);
-        }
-
-        .nav-button {
-            background: none;
+        .calendar-header button {
+            background-color: var(--primary-color);
+            color: #fff;
             border: none;
-            font-size: 1.5em;
+            border-radius: 5px;
+            padding: 8px 12px;
             cursor: pointer;
-            color: var(--text-dark);
-            transition: color 0.2s ease;
+            font-size: 1em;
+            transition: background-color 0.2s ease;
         }
 
-        .nav-button:hover {
-            color: var(--primary-color);
+        .calendar-header button:hover {
+            background-color: #e67d8f;
         }
 
-        .calendar-grid {
+        .calendar-days-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        .calendar-days {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 5px;
             text-align: center;
-            font-size: 0.9em;
         }
 
-        .calendar-grid .day-name {
-            font-weight: 600;
-            color: var(--text-light);
-            padding-bottom: 5px;
-        }
-
-        .calendar-day {
-            padding: 8px;
+        .calendar-days div {
+            padding: 10px 5px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.2s ease;
-            position: relative;
         }
 
-        .calendar-day:hover:not(.empty):not(.past):not(.selected-date) {
+        .calendar-days div:not(.past-date):hover {
+            background-color: var(--secondary-color);
+            color: #fff;
+        }
+
+        .calendar-days .current-day {
+            background-color: var(--accent-color);
+            color: var(--text-dark);
+            font-weight: bold;
+        }
+
+        .calendar-days .selected-date {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .calendar-days .past-date {
             background-color: #f0f0f0;
-        }
-
-        .calendar-day.empty, .calendar-day.past {
             color: #bbb;
             cursor: not-allowed;
-            background-color: #fafafa;
+            text-decoration: line-through;
         }
 
-        .calendar-day.today {
-            border: 1px solid var(--primary-color);
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .calendar-day.selected-date {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-        }
-
-        .calendar-day.selected-date.today {
-            background-color: var(--primary-color);
-            border-color: white;
-        }
-        
-        #deliveryDate {
-            display: block; /* Hidden but acts as form input for validation */
-            visibility: hidden;
-            height: 0;
-            padding: 0;
-            margin: 0;
-            border: none;
-        }
-
-        #selectedDateDisplay {
-            font-size: 1.1em;
-            font-weight: 600;
-            text-align: center;
-            margin-top: 15px;
-            color: var(--secondary-color);
-        }
-
-        #currentTimeZone {
-            font-size: 0.85em;
-            color: var(--text-light);
-            text-align: center;
-            margin-top: 5px;
-        }
-
-        #timeSlots {
+        .time-slots {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             gap: 10px;
@@ -558,356 +556,307 @@
         }
 
         .time-slot {
-            background-color: var(--bg-light);
+            background-color: #f0f0f0;
             border: 1px solid var(--border-color);
-            padding: 10px;
             border-radius: 5px;
+            padding: 10px;
             text-align: center;
             cursor: pointer;
-            transition: background-color 0.2s ease, border-color 0.2s ease;
-            font-size: 0.95em;
-            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
-        .time-slot:hover:not(.unavailable):not(.selected-time) {
-            background-color: #f0f0f0;
-            border-color: var(--primary-color);
-        }
-
-        .time-slot.unavailable {
-            background-color: #eee;
-            color: #bbb;
-            cursor: not-allowed;
-            text-decoration: line-through;
+        .time-slot:hover:not(.unavailable) {
+            background-color: var(--secondary-color);
+            color: #fff;
         }
 
         .time-slot.selected-time {
             background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            font-weight: 600;
+            color: #fff;
+            font-weight: bold;
         }
 
-        /* --- Payment Instructions in SweetAlert --- */
-        .payment-instructions {
-            padding: 15px;
-            border: 1px solid;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: left;
+        .time-slot.unavailable {
+            background-color: #f8d7da;
+            color: #721c24;
+            text-decoration: line-through;
+            cursor: not-allowed;
         }
+
+        #currentTimeZone {
+            font-size: 0.9em;
+            color: var(--text-light);
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .payment-instructions {
+            margin-top: 20px;
+            padding: 15px;
+            border-left: 5px solid;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: var(--text-dark);
+        }
+
         .payment-instructions h4 {
             margin-top: 0;
-            margin-bottom: 10px;
-            font-size: 1.2em;
+            color: var(--primary-color);
         }
-        .payment-instructions p {
-            margin-bottom: 5px;
-            font-size: 0.95em;
-        }
+
         .payment-instructions img {
-            max-width: 150px;
+            max-width: 200px;
             height: auto;
-            border-radius: 5px;
             border: 1px solid #ddd;
+            border-radius: 5px;
         }
+
+        .payment-instructions a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .payment-instructions a:hover {
+            text-decoration: underline;
+        }
+
+        /* SweetAlert2 custom button styling */
         .swal-button {
             background-color: var(--primary-color) !important;
-            color: white !important;
+            color: #fff !important;
+            border: none !important;
+            padding: 10px 20px !important;
             border-radius: 5px !important;
+            font-size: 1em !important;
+            cursor: pointer !important;
+            transition: background-color 0.2s ease !important;
         }
-        .swal-loading-popup {
-            background: #fff url('https://i.ibb.co/3sX8h2G/loading-spinner.gif') no-repeat center 20px; /* Example spinner */
-            background-size: 50px;
-            padding-top: 80px !important;
+
+        .swal-button:hover {
+            background-color: #e67d8f !important;
         }
-        .swal-loading-popup .swal2-title,
-        .swal-loading-popup .swal2-content {
+
+        .swal2-title {
             color: var(--text-dark) !important;
-            margin-top: 10px !important;
         }
-        .swal-loading-popup .swal2-actions {
-            display: none !important;
-        }
-        
-        /* Hidden input for display only */
-        #deliveryDate {
-            position: absolute;
-            left: -9999px; /* Move off-screen */
-            top: -9999px;
-            width: 1px;
-            height: 1px;
-            visibility: hidden;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-            .container {
-                margin: 10px;
-                padding: 15px;
-            }
-            .tab-button {
-                padding: 12px 15px;
-                font-size: 1em;
-            }
-            .product-catalog {
-                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-                gap: 15px;
-            }
-            .product-image {
-                height: 120px;
-            }
-            .product-name {
-                font-size: 1em;
-            }
-            .product-price {
-                font-size: 1.1em;
-            }
-            .quantity-btn {
-                width: 25px;
-                height: 25px;
-                font-size: 1em;
-            }
-            .quantity-display {
-                font-size: 1em;
-            }
-            .date-time-picker-container {
-                grid-template-columns: 1fr;
-            }
-            .calendar-day, .time-slot {
-                padding: 6px;
-                font-size: 0.9em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .tab-button {
-                font-size: 0.9em;
-                padding: 10px 10px;
-            }
-            .product-catalog {
-                grid-template-columns: 1fr; /* Stack on very small screens */
-            }
-            .product-card {
-                padding: 10px;
-            }
-            .product-image {
-                height: 100px;
-            }
-            .product-name {
-                font-size: 0.95em;
-            }
-            .product-price {
-                font-size: 1em;
-            }
+        .swal2-html-container {
+            color: var(--text-light) !important;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Sweet Mary's</h1>
-    </header>
-
     <div class="container">
+        <header>
+            <img src="https://i.ibb.co/Xz9F31h/sweet-mary-s-logo.png" alt="Sweet Mary's Logo">
+            <h1>Sweet Mary's</h1>
+            <p>Your go-to for delicious homemade treats!</p>
+        </header>
+
         <div class="main-tabs">
-            <button class="tab-button active" onclick="showMainTab('menu')">Browse Menu</button>
-            <button class="tab-button" onclick="showMainTab('order')">Your Order</button>
+            <button class="tab-button active" onclick="showMainTab('order')">Order Here</button>
+            <button class="tab-button" onclick="showMainTab('menu')">Browse Products</button>
         </div>
 
-        <div id="menuTabContent" class="tab-content active">
-            <h2>Our Delicious Treats</h2>
-            <div id="categories" class="category-filter">
-                </div>
-            <div id="productCatalog" class="product-catalog">
-                </div>
-        </div>
+        <div id="orderTabContent" class="tab-content active">
+            <h2 style="text-align: center;">Place Your Order</h2>
 
-        <div id="orderTabContent" class="tab-content">
+            <div class="category-tabs" id="categoryTabs">
+                </div>
+
+            <div class="product-catalog" id="productCatalog">
+                </div>
+
             <div class="cart-summary">
-                <h2>Your Cart</h2>
-                <div id="cartItems" class="cart-items">
-                    </div>
+                <h3>Your Cart</h3>
+                <ul id="cartItemsList">
+                    </ul>
                 <div class="cart-total">
-                    <div class="total-row">
-                        <span>Subtotal:</span>
-                        <span id="subTotalAmount">₱0.00</span>
-                    </div>
-                    <div class="total-row" id="deliveryFeeRow" style="display: none;">
-                        <span>Delivery Fee:</span>
-                        <span id="deliveryFeeAmount">₱0.00</span>
-                    </div>
-                    <div class="total-row">
-                        <strong>Total Amount:</strong>
-                        <strong id="finalTotalAmount">₱0.00</strong>
-                    </div>
+                    <span>Total:</span>
+                    <span id="totalAmount">₱0.00</span>
                 </div>
-                <button class="checkout-button" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                <button class="proceed-button" onclick="proceedToCheckout()">Proceed to Checkout</button>
                 <button class="clear-cart-button" onclick="clearCart()">Clear Cart</button>
             </div>
-        </div>
-    </div>
 
-    <div id="orderForm" class="container" style="display: none;">
-        <h2>Checkout Details</h2>
-        <form id="orderSubmissionForm">
-            <div class="form-section">
-                <h3>Contact Information</h3>
+            <form id="orderForm" class="order-form" onsubmit="event.preventDefault(); submitOrder();">
+                <h2>Your Details</h2>
+
                 <div class="form-group">
                     <label for="fullName">Full Name:</label>
-                    <input type="text" id="fullName" name="fullName" required>
+                    <input type="text" id="fullName" name="fullName" required oninput="toUpperCaseInput(event)">
                 </div>
+
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
+
                 <div class="form-group">
                     <label for="address">Full Address:</label>
-                    <input type="text" id="address" name="address" placeholder="House/Unit No., Street, Barangay, City" required>
+                    <input type="text" id="address" name="address" required>
                 </div>
+
                 <div class="form-group">
                     <label for="contactNumber">Contact Number:</label>
-                    <input type="tel" id="contactNumber" name="contactNumber" required>
+                    <input type="tel" id="contactNumber" name="contactNumber" pattern="[0-9]{10,11}" placeholder="e.g., 09123456789" required>
                 </div>
-            </div>
 
-            <div class="form-section">
-                <h3>Order Type</h3>
                 <div class="form-group">
-                    <label for="orderType">Select Order Type:</label>
+                    <label for="orderType">Order Type:</label>
                     <select id="orderType" name="orderType" onchange="toggleOrderType()" required>
-                        <option value="">-- Select --</option>
+                        <option value="">Select Order Type</option>
                         <option value="delivery">Delivery</option>
                         <option value="pickup">Pickup</option>
                     </select>
                 </div>
 
-                <div id="deliveryDetails" style="display: none;" class="form-section">
-                    <h3>Delivery Details</h3>
+                <div id="deliveryDetails" class="delivery-details" style="display: none;">
+                    <h3>Delivery Information</h3>
                     <div class="form-group">
-                        <label for="shippingAddressSelect">Delivery Location:</label>
-                        <select id="shippingAddressSelect" name="shippingAddress" onchange="handleDeliveryLocationChange()">
+                        <label for="shippingAddressSelect">Delivery Location (Area):</label>
+                        <select id="shippingAddressSelect" name="shippingAddress" onchange="handleDeliveryLocationChange()" required>
                             <option value="">Select a delivery location</option>
                             </select>
-                        <p id="selectedDeliveryFeeDisplay" style="display: none; margin-top: 10px; font-weight: 600; color: var(--text-light);"></p>
-                    </div>
-
-                    <h3 id="deliveryDateTimeHeader">Delivery Date & Time</h3>
-                    <div class="date-time-picker-container">
-                        <div class="date-picker-section">
-                            <div class="date-picker-header">
-                                <button class="nav-button" onclick="prevMonth()" type="button">&lt;</button>
-                                <h4 id="monthYear"></h4>
-                                <button class="nav-button" onclick="nextMonth()" type="button">&gt;</button>
-                            </div>
-                            <div id="calendar" class="calendar-grid">
-                                </div>
-                            <p id="selectedDateDisplay" style="margin-top: 15px; text-align: center;">Select a Delivery Date</p>
-                            <input type="text" id="deliveryDate" name="deliveryDate" required readonly>
-                        </div>
-
-                        <div class="time-picker-section">
-                            <div class="time-picker-header">
-                                <h4>Available Time Slots</h4>
-                            </div>
-                            <p id="currentTimeZone">Asia/Manila (00:00 AM)</p>
-                            <div id="timeSlots">
-                                </div>
-                        </div>
+                        <div id="selectedDeliveryFeeDisplay" style="margin-top: 5px; font-weight: bold; color: var(--text-dark); display: none;"></div>
                     </div>
                 </div>
 
-                <div id="pickupDetails" style="display: none;" class="form-section">
-                    <h3>Pickup Details</h3>
+                <div id="pickupDetails" class="pickup-details" style="display: none;">
+                    <h3>Pickup Information</h3>
                     <div class="form-group">
                         <label for="pickupLocation">Pickup Location:</label>
-                        <input type="text" id="pickupLocation" name="pickupLocation" value="Sweet Mary's Main Branch" readonly required>
+                        <input type="text" id="pickupLocation" name="pickupLocation" value="Main Branch, Virac" readonly required>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-section">
-                <h3>Payment Method</h3>
+                <h3 id="deliveryDateTimeHeader" style="text-align: center; display: none;">Preferred Delivery/Pickup Date & Time</h3>
+                <div class="date-time-picker-container">
+                    <div class="date-picker-section">
+                        <h4>Select Date</h4>
+                        <div class="calendar-header">
+                            <button type="button" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                            <h5 id="monthYear"></h5>
+                            <button type="button" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar-days-header">
+                            <div>Sun</div>
+                            <div>Mon</div>
+                            <div>Tue</div>
+                            <div>Wed</div>
+                            <div>Thu</div>
+                            <div>Fri</div>
+                            <div>Sat</div>
+                        </div>
+                        <div class="calendar-days" id="calendarDays">
+                            </div>
+                        <input type="hidden" id="deliveryDate" name="deliveryDate">
+                    </div>
+
+                    <div class="time-picker-section">
+                        <h4>Select Time</h4>
+                        <p id="selectedDateDisplay" style="font-weight: bold;"></p>
+                        <div class="time-slots" id="timeSlots">
+                            </div>
+                        <p id="currentTimeZone"></p>
+                        <input type="hidden" id="deliveryTime" name="deliveryTime">
+                    </div>
+                </div>
+
                 <div class="form-group">
-                    <label for="paymentMethod">Select Payment Method:</label>
+                    <label for="paymentMethod">Payment Method:</label>
                     <select id="paymentMethod" name="paymentMethod" required>
-                        <option value="">-- Select --</option>
-                        <option value="GCASH">GCash</option>
+                        <option value="">Select Payment Method</option>
+                        <option value="GCASH">GCASH</option>
                         <option value="CASH">Cash on Delivery/Pickup</option>
                     </select>
                 </div>
-            </div>
 
-            <div class="form-section">
-                <h3>Additional Remarks (Optional)</h3>
                 <div class="form-group">
-                    <label for="remarks">Remarks:</label>
-                    <textarea id="remarks" name="remarks" rows="3" placeholder="e.g., specific instructions, allergy info, etc."></textarea>
+                    <label for="remarks">Special Remarks (Optional):</label>
+                    <textarea id="remarks" name="remarks" rows="3" placeholder="e.g., Happy Birthday packaging, less sugar, etc."></textarea>
                 </div>
-            </div>
 
-            <button type="submit" class="checkout-button" style="margin-top: 20px;" onclick="event.preventDefault(); submitOrder();">Place Order</button>
-            <button type="button" class="clear-cart-button" onclick="resetForm()">Reset Form</button>
-        </form>
+                <button type="submit" class="submit-button">Submit Order</button>
+                <button type="button" class="clear-cart-button" onclick="resetForm()">Reset Form</button>
+            </form>
+        </div>
+
+        <div id="menuTabContent" class="tab-content">
+            <h2 style="text-align: center;">Our Product Menu</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <img src="https://i.ibb.co/5g6vgY8L/image.png" alt="CRINKLES (10pcs)">
+                    <div class="menu-item-info">
+                        <h3>CRINKLES</h3>
+                        <p>Starting at ₱100.00</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="https://i.ibb.co/TxPktrs6/image.png" alt="CHOCOLATE CHIP COOKIES">
+                    <div class="menu-item-info">
+                        <h3>CHOCOLATE CHIP COOKIES</h3>
+                        <p>Starting at ₱80.00</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="https://i.ibb.co/j1VXkqs/image.png" alt="MINI DARK COOKIES">
+                    <div class="menu-item-info">
+                        <h3>MINI COOKIES</h3>
+                        <p>Starting at ₱150.00</p>
+                    </div>
+                </div>
+                 <div class="menu-item">
+                    <img src="https://i.ibb.co/fVD4LTYN/image.png" alt="CHOCOLATE MUFFINS">
+                    <div class="menu-item-info">
+                        <h3>MUFFINS</h3>
+                        <p>Starting at ₱200.00</p>
+                    </div>
+                </div>
+                 <div class="menu-item">
+                    <img src="https://i.ibb.co/bM1LcPHk/image.png" alt="CHOCO BANANA LOAF">
+                    <div class="menu-item-info">
+                        <h3>BANANA CAKE</h3>
+                        <p>Starting at ₱250.00</p>
+                    </div>
+                </div>
+                 <div class="menu-item">
+                    <img src="https://i.ibb.co/tThcZPnP/image.png" alt="BENTO CHEESE CAKE">
+                    <div class="menu-item-info">
+                        <h3>BENTO CHEESE CAKE</h3>
+                        <p>Starting at ₱350.00</p>
+                    </div>
+                </div>
+                </div>
+        </div>
     </div>
 
     <script>
-        // --- Global Variables ---
-        let products = []; // Will be populated from Google Sheet
-        let deliveryLocations = []; // Will be populated from Google Sheet
+        // Global Variables
+        let products = []; // This will hold the main product data, merged with sheet data
         let cart = {};
         let deliveryFee = 0;
-        let selectedDeliveryDate = null;
-        let selectedDeliveryTime = null;
+        let deliveryLocations = []; // To store locations fetched from the sheet
+
+        // Date Picker Globals
+        const months = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
-        let currentCategory = 'ALL'; // Default category for menu display
-
-        // Time slots (can be made configurable from Sheet if needed)
+        let selectedDeliveryDate = null;
+        let selectedDeliveryTime = null;
         const timeSlots = [
-            '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM',
-            '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM',
-            '5:00 PM', '6:00 PM'
+            "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+            "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM",
+            "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM",
+            "7:00 PM", "7:30 PM"
         ];
 
-        // --- Core Functions ---
-
-        // Function to switch between main tabs (Browse Menu, Your Order)
-        function showMainTab(tabId) {
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            document.querySelector(`.tab-button[onclick="showMainTab('${tabId}')"]`).classList.add('active');
-            document.getElementById(`${tabId}TabContent`).classList.add('active');
-
-            // Hide the order form if switching away from order tab or to the menu tab
-            if (tabId === 'menu') {
-                document.getElementById('orderForm').style.display = 'none';
-            }
-        }
-
-        // Function to load product data from Google Sheet
-        function loadProducts() {
-            Swal.fire({
-                title: 'Loading Menu...',
-                text: 'Please wait while we fetch our delicious treats.',
-                allowOutsideClick: false,
-                didOpen: () => { Swal.showLoading(); },
-                customClass: { popup: 'swal-loading-popup' }
-            });
-
-            if (typeof google === 'undefined' || typeof google.script === 'undefined') {
-                console.warn('google.script.run is not available for products. Using dummy data.');
-                products = [
+        // Base product data (used as fallback if sheet fails)
+        const baseProducts = [
+            // CRINKLES
             { id: 'crinkles10pcs', name: 'CRINKLES (10pcs)', category: 'CRINKLES', price: 100, image: 'https://i.ibb.co/5g6vgY8L/image.png' },
             { id: 'chocoCrinkles10pcs', name: 'CHOCO FILLED (10pcs)', category: 'CRINKLES', price: 120, image: 'https://i.ibb.co/5g6vgY8L/image.png' },
             { id: 'chocoLavaCrinkles', name: 'CHOCO LAVA (4pcs)', category: 'CRINKLES', price: 150, image: 'https://i.ibb.co/LdHtkTkR/image.png' },
@@ -965,263 +914,391 @@
             { id: 'bentoOreo', name: 'OREO', category: 'BENTO CHEESE CAKE', price: 370, image: 'https://i.ibb.co/LzWsW3dB/image.png' },
             { id: 'bentoNutella', name: 'NUTELLA', category: 'BENTO CHEESE CAKE', price: 390, image: 'https://i.ibb.co/m5L3DwmG/image.png' }
         ];
-                renderCategories();
-                renderProducts();
-                Swal.close();
-                return;
+
+        // --- Event Listeners and Initial Setup ---
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            loadDeliveryLocations();
+            renderCalendar();
+            updateTimeZoneDisplay();
+            updateCartDisplay();
+            toggleOrderType();
+            generateCategoryTabs();
+            showCategory('CRINKLES');
+        });
+
+        // --- Main Tab Switching (Menu | Order Here) ---
+        function showMainTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            document.querySelector(`.main-tabs button[onclick="showMainTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(`${tabName}TabContent`).classList.add('active');
+
+            if (tabName === 'order') {
+                if (products.length === 0) {
+                    loadProducts();
+                } else {
+                    const activeCategoryButton = document.querySelector('.category-tabs .active');
+                    if (activeCategoryButton) {
+                        showCategory(activeCategoryButton.dataset.category);
+                    } else {
+                        showCategory('CRINKLES');
+                    }
+                }
+            }
+        }
+
+        // --- Category Tab Generation ---
+        function generateCategoryTabs() {
+            const categoryTabsContainer = document.getElementById('categoryTabs');
+            categoryTabsContainer.innerHTML = ''; // Clear existing tabs
+
+            const uniqueCategories = [...new Set(baseProducts.map(p => p.category))];
+
+            uniqueCategories.forEach(category => {
+                const button = document.createElement('button');
+                button.textContent = category;
+                button.classList.add('category-tab-button');
+                button.dataset.category = category;
+                button.onclick = () => showCategory(category);
+                categoryTabsContainer.appendChild(button);
+            });
+        }
+
+        // --- Show Products by Category ---
+        function showCategory(categoryName) {
+            document.querySelectorAll('.category-tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            const activeCategoryButton = document.querySelector(`.category-tab-button[data-category="${categoryName}"]`);
+            if (activeCategoryButton) {
+                activeCategoryButton.classList.add('active');
             }
 
-            google.script.run
-                .withSuccessHandler(function(data) {
-                    products = data;
-                    console.log("Products loaded:", products);
-                    renderCategories();
-                    renderProducts();
-                    Swal.close();
+            const filteredProducts = products.filter(p => p.category === categoryName);
+            renderProducts(filteredProducts);
+        }
+
+        // --- Product Loading ---
+        function loadProducts() {
+            Swal.fire({
+                title: 'Loading Menu...',
+                text: 'Please wait while we fetch the latest products and prices.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Reference your deployed Apps Script URL here
+            // This is the key change for GitHub Pages to talk to Apps Script
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec';
+
+            fetch(scriptUrl + '?action=getProducts')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
                 })
-                .withFailureHandler(function(error) {
-                    console.error('Failed to load products:', error.message);
+                .then(sheetProducts => {
+                    Swal.close();
+                    const mergedProductsMap = new Map(baseProducts.map(p => [p.id, { ...p }]));
+
+                    sheetProducts.forEach(sheetP => {
+                        if (mergedProductsMap.has(sheetP.id)) {
+                            const existingProduct = mergedProductsMap.get(sheetP.id);
+                            existingProduct.price = parseFloat(sheetP.price);
+                            existingProduct.available = sheetP.available;
+                            existingProduct.status = sheetP.status;
+                            // Only update image if sheet provides one
+                            if (sheetP.image && sheetP.image.trim() !== '') {
+                                existingProduct.image = sheetP.image;
+                            }
+                        } else {
+                            // Add new products from sheet if they don't exist in base
+                            sheetP.price = parseFloat(sheetP.price);
+                            sheetP.available = sheetP.available === undefined ? true : sheetP.available;
+                            sheetP.status = sheetP.status === undefined ? (sheetP.available ? 'Available' : 'Out of Stock') : sheetP.status;
+                            mergedProductsMap.set(sheetP.id, sheetP);
+                        }
+                    });
+
+                    products = Array.from(mergedProductsMap.values());
+
+                    products.forEach(mergedProduct => {
+                        if (!mergedProduct.available && cart[mergedProduct.id]) {
+                            delete cart[mergedProduct.id];
+                        }
+                    });
+
+                    // Ensure all products have an 'available' and 'status' property
+                    products.forEach(p => {
+                        if (p.available === undefined) p.available = true;
+                        if (p.status === undefined) p.status = p.available ? 'Available' : 'Out of Stock';
+                    });
+
+                    generateCategoryTabs();
+                    showCategory(Object.keys(categories)[0] || 'CRINKLES');
+                    updateCartDisplay();
+                })
+                .catch(error => {
+                    Swal.close();
                     Swal.fire({
                         icon: 'error',
-                        title: 'Failed to Load Products',
-                        text: 'There was an error fetching product data. Please try again later. Error: ' + error.message,
+                        title: 'Failed to Load Menu',
+                        text: 'There was an error fetching product data: ' + error.message + '. Displaying default menu.',
                         confirmButtonText: 'OK',
                         customClass: { confirmButton: 'swal-button' }
                     });
-                    products = []; // Ensure products array is empty on failure
-                    Swal.close();
-                })
-                .getProducts();
-        }
-
-        // Function to render category filter buttons
-        function renderCategories() {
-            const categoriesContainer = document.getElementById('categories');
-            if (!categoriesContainer) return;
-            categoriesContainer.innerHTML = '';
-
-            const allCategories = new Set(products.map(p => p.category).filter(Boolean));
-            const sortedCategories = ['ALL', ...Array.from(allCategories).sort()];
-
-            sortedCategories.forEach(category => {
-                const categoryBtn = document.createElement('button');
-                categoryBtn.classList.add('category-button');
-                if (category === currentCategory) {
-                    categoryBtn.classList.add('active');
-                }
-                categoryBtn.textContent = category;
-                categoryBtn.dataset.category = category;
-                categoryBtn.addEventListener('click', () => {
-                    currentCategory = category;
-                    renderCategories();
-                    renderProducts();
+                    products = [...baseProducts];
+                    products.forEach(p => { p.available = true; p.status = 'Available'; });
+                    generateCategoryTabs();
+                    showCategory(Object.keys(categories)[0] || 'CRINKLES');
+                    updateCartDisplay();
                 });
-                categoriesContainer.appendChild(categoryBtn);
-            });
         }
 
-        // Function to render products in the catalog
-        function renderProducts() {
+        let categories = {};
+
+        function renderProducts(productsToRender = products) {
             const productCatalog = document.getElementById('productCatalog');
-            if (!productCatalog) return;
             productCatalog.innerHTML = '';
 
-            const filteredProducts = currentCategory === 'ALL'
-                ? products
-                : products.filter(product => product.category === currentCategory);
+            categories = {};
 
-            if (filteredProducts.length === 0) {
-                productCatalog.innerHTML = '<p class="no-products-message">No products available in this category.</p>';
+            productsToRender.forEach(product => {
+                const productName = String(product.name || '').trim();
+                const isIndividual = /\(10pcs\)/i.test(productName) && product.category === 'CRINKLES';
+
+                if (!categories[product.category]) {
+                    categories[product.category] = {};
+                }
+
+                let baseNameForGrouping = productName;
+                if (!isIndividual) {
+                    baseNameForGrouping = productName.replace(/\s*\(.*?\)/, '').trim();
+                }
+
+                const key = `${product.category}-${baseNameForGrouping}`;
+
+                if (!categories[product.category][key]) {
+                    categories[product.category][key] = {
+                        baseName: baseNameForGrouping,
+                        category: product.category,
+                        image: product.image || '',
+                        variants: []
+                    };
+                }
+
+                if (!categories[product.category][key].image && product.image) {
+                    categories[product.category][key].image = product.image;
+                }
+
+                categories[product.category][key].variants.push(product);
+            });
+
+            for (const categoryName in categories) {
+                const itemsInThisCategory = categories[categoryName];
+
+                for (const key in itemsInThisCategory) {
+                    const item = itemsInThisCategory[key];
+
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+
+                    const displayMainName = String(item.baseName || '').replace(/\s*\(.*?\)/, '').trim();
+
+                    productCard.innerHTML = `
+                        ${item.image ? `<img src="${item.image}" alt="${item.baseName}" class="product-img">` : ''}
+                        <div class="product-info">
+                            <h4>${displayMainName}</h4>
+                            ${item.variants.map(variant => {
+                                const variantTextMatch = String(variant.name || '').match(/\(.*?\)/);
+                                const variantText = variantTextMatch ? variantTextMatch[0] : '';
+                                const safeStatus = (variant.status || '').toLowerCase().replace(/\s/g, '-');
+
+                                return `
+                                    <div style="margin-bottom: 10px;">
+                                        <strong>${variantText}</strong>
+                                        <p>₱${variant.price !== undefined && variant.price !== null ? variant.price.toFixed(2) : 'N/A'}</p>
+                                        ${variant.available ? `
+                                            <div class="quantity-control">
+                                                <button type="button" onclick="changeQuantity('${variant.id}', -1)">-</button>
+                                                <span id="qty-${variant.id}">${cart[variant.id] || 0}</span>
+                                                <button type="button" onclick="changeQuantity('${variant.id}', 1)">+</button>
+                                            </div>
+                                        ` : `
+                                            <div class="product-status">
+                                                <span class="status-badge ${safeStatus}">${variant.status || 'N/A'}</span>
+                                            </div>
+                                        `}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    `;
+                    productCatalog.appendChild(productCard);
+                }
+            }
+        }
+
+        function changeQuantity(productId, delta) {
+            const product = products.find(p => p.id === productId);
+            if (!product || !product.available) {
+                if (!product) {
+                    console.warn(`Product with ID ${productId} not found.`);
+                } else {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Item Unavailable',
+                        text: `"${product.name}" is currently ${product.status || 'not available'}.`,
+                        confirmButtonText: 'OK',
+                        customClass: { confirmButton: 'swal-button' }
+                    });
+                }
                 return;
             }
 
-            filteredProducts.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.classList.add('product-card');
-                if (!product.available) {
-                    productCard.classList.add('out-of-stock');
-                }
+            let currentQty = cart[productId] || 0;
+            let newQty = currentQty + delta;
 
-                const imageUrl = product.image && product.image.trim() !== '' ? product.image : 'https://via.placeholder.com/150?text=No+Image';
+            if (newQty < 0) newQty = 0;
 
-                productCard.innerHTML = `
-                    <img src="${imageUrl}" alt="${product.name}" class="product-image">
-                    <h3 class="product-name">${product.name}</h3>
-                    <p class="product-price">₱${product.price.toFixed(2)}</p>
-                    <p class="product-status ${product.available ? 'available' : 'out-of-stock-text'}">${product.status}</p>
-                    <div class="product-quantity-control">
-                        <button class="quantity-btn decrease-btn" data-id="${product.id}" ${!product.available ? 'disabled' : ''}>-</button>
-                        <span class="quantity-display" id="qty-${product.id}">${cart[product.id] || 0}</span>
-                        <button class="quantity-btn increase-btn" data-id="${product.id}" ${!product.available ? 'disabled' : ''}>+</button>
-                    </div>
-                `;
-                productCatalog.appendChild(productCard);
-            });
-
-            productCatalog.querySelectorAll('.quantity-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const productId = event.target.dataset.id;
-                    const product = products.find(p => p.id === productId);
-
-                    if (!product || !product.available) {
-                        return;
-                    }
-
-                    if (event.target.classList.contains('increase-btn')) {
-                        addToCart(productId);
-                    } else if (event.target.classList.contains('decrease-btn')) {
-                        removeFromCart(productId);
-                    }
-                });
-            });
-            updateCartDisplay();
-        }
-
-        // Function to add item to cart
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (!product || !product.available) return;
-
-            cart[productId] = (cart[productId] || 0) + 1;
-            document.getElementById(`qty-${productId}`).textContent = cart[productId];
-            updateCartDisplay();
-        }
-
-        // Function to remove item from cart
-        function removeFromCart(productId) {
-            if (cart[productId] && cart[productId] > 0) {
-                cart[productId]--;
-                document.getElementById(`qty-${productId}`).textContent = cart[productId];
-                if (cart[productId] === 0) {
-                    delete cart[productId];
-                }
+            cart[productId] = newQty;
+            const qtySpan = document.getElementById(`qty-${productId}`);
+            if (qtySpan) {
+                qtySpan.textContent = newQty;
             }
             updateCartDisplay();
         }
 
-        // Function to update cart display and totals
         function updateCartDisplay() {
-            const cartItemsContainer = document.getElementById('cartItems');
-            const subTotalElement = document.getElementById('subTotalAmount');
-            const deliveryFeeElement = document.getElementById('deliveryFeeAmount');
-            const deliveryFeeRow = document.getElementById('deliveryFeeRow');
-            const finalTotalElement = document.getElementById('finalTotalAmount');
-            cartItemsContainer.innerHTML = '';
+            const cartItemsList = document.getElementById('cartItemsList');
+            cartItemsList.innerHTML = '';
+            let subTotalAmount = 0;
+            let itemsInCart = false;
 
-            let subtotal = 0;
-            const selectedItems = products.filter(product => cart[product.id] > 0);
+            products.forEach(product => {
+                if (cart[product.id] > 0) {
+                    itemsInCart = true;
+                    const itemTotal = product.price * cart[product.id];
+                    subTotalAmount += itemTotal;
 
-            if (selectedItems.length === 0) {
-                cartItemsContainer.innerHTML = '<p style="text-align: center; color: var(--text-light); font-style: italic;">Your cart is empty.</p>';
-            } else {
-                selectedItems.forEach(product => {
-                    const quantity = cart[product.id];
-                    const itemTotal = product.price * quantity;
-                    subtotal += itemTotal;
-
-                    const itemDiv = document.createElement('div');
-                    itemDiv.classList.add('cart-item');
-                    itemDiv.innerHTML = `
-                        <div class="item-details">
-                            ${product.name} x <span>${quantity}</span>
-                        </div>
-                        <div class="item-actions">
-                            ₱${itemTotal.toFixed(2)}
-                            <button class="quantity-btn decrease-btn" data-id="${product.id}" onclick="removeFromCart('${product.id}')">-</button>
-                            <button class="quantity-btn increase-btn" data-id="${product.id}" onclick="addToCart('${product.id}')">+</button>
-                        </div>
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <span>${product.name} (x${cart[product.id]})</span>
+                        <span>₱${itemTotal.toFixed(2)}</span>
                     `;
-                    cartItemsContainer.appendChild(itemDiv);
-                });
-            }
-
-            subTotalElement.textContent = `₱${subtotal.toFixed(2)}`;
-            deliveryFeeElement.textContent = `₱${deliveryFee.toFixed(2)}`;
-
-            if (document.getElementById('orderType').value === 'delivery') {
-                deliveryFeeRow.style.display = 'flex';
-            } else {
-                deliveryFeeRow.style.display = 'none';
-            }
-
-            finalTotalElement.textContent = `₱${(subtotal + deliveryFee).toFixed(2)}`;
-        }
-
-        // --- Calendar Functions ---
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-
-        function renderCalendar() {
-            const calendarEl = document.getElementById('calendar');
-            const monthYearEl = document.getElementById('monthYear');
-            calendarEl.innerHTML = ''; // Clear previous calendar
-
-            const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            const firstDayOfWeek = firstDayOfMonth.getDay(); // 0 for Sunday, 6 for Saturday
-
-            monthYearEl.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-
-            // Add day names
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            dayNames.forEach(day => {
-                const div = document.createElement('div');
-                div.classList.add('day-name');
-                div.textContent = day;
-                calendarEl.appendChild(div);
+                    cartItemsList.appendChild(listItem);
+                }
             });
 
-            // Add empty days for the beginning of the month
-            for (let i = 0; i < firstDayOfWeek; i++) {
-                const div = document.createElement('div');
-                div.classList.add('calendar-day', 'empty');
-                calendarEl.appendChild(div);
+            if (!itemsInCart) {
+                const noItems = document.createElement('li');
+                noItems.textContent = "No items in cart yet. Select from the menu above!";
+                noItems.style.justifyContent = 'center';
+                noItems.style.fontStyle = 'italic';
+                noItems.style.color = 'var(--text-light)';
+                cartItemsList.appendChild(noItems);
             }
 
-            // Add days of the month
-            const now = new Date();
-            const todayNormalized = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            todayNormalized.setHours(0, 0, 0, 0);
+            const subtotalItem = document.createElement('li');
+            subtotalItem.classList.add('cart-subtotal-item');
+            subtotalItem.innerHTML = `
+                <span>Subtotal:</span>
+                <span>₱${subTotalAmount.toFixed(2)}</span>
+            `;
+            cartItemsList.appendChild(subtotalItem);
+
+            if (deliveryFee > 0) {
+                const deliveryFeeItem = document.createElement('li');
+                deliveryFeeItem.classList.add('delivery-fee-item');
+                deliveryFeeItem.innerHTML = `
+                    <span>Delivery Fee:</span>
+                    <span>₱${deliveryFee.toFixed(2)}</span>
+                `;
+                cartItemsList.appendChild(deliveryFeeItem);
+            }
+
+            const finalTotalAmount = subTotalAmount + deliveryFee;
+            document.getElementById('totalAmount').textContent = `₱${finalTotalAmount.toFixed(2)}`;
+        }
+
+        function toUpperCaseInput(event) {
+            event.target.value = event.target.value.toUpperCase();
+        }
+
+        // Date Picker Functions
+        function renderCalendar() {
+            const monthYearText = document.getElementById('monthYear');
+            const calendarDaysContainer = document.getElementById('calendarDays');
+            const deliveryDateInput = document.getElementById('deliveryDate');
+
+            monthYearText.textContent = `${months[currentMonth]} ${currentYear}`;
+            calendarDaysContainer.innerHTML = '';
+
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            for (let i = 0; i < firstDayOfMonth; i++) {
+                const emptyDiv = document.createElement('div');
+                emptyDiv.classList.add('other-month');
+                calendarDaysContainer.appendChild(emptyDiv);
+            }
 
             for (let day = 1; day <= daysInMonth; day++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.textContent = day;
                 const date = new Date(currentYear, currentMonth, day);
-                date.setHours(0, 0, 0, 0); // Normalize to start of day
+                date.setHours(0, 0, 0, 0);
 
-                const div = document.createElement('div');
-                div.classList.add('calendar-day');
-                div.textContent = day;
+                const now = new Date();
+                const todayNormalized = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                todayNormalized.setHours(0, 0, 0, 0);
 
                 if (date < todayNormalized) {
-                    div.classList.add('past');
+                    dayDiv.classList.add('past-date');
                 } else {
-                    div.addEventListener('click', () => selectDeliveryDate(date));
+                    dayDiv.addEventListener('click', () => {
+                        selectDeliveryDate(date);
+                    });
                 }
 
-                if (date.toDateString() === todayNormalized.toDateString()) {
-                    div.classList.add('today');
+                if (date.getTime() === todayNormalized.getTime()) {
+                    dayDiv.classList.add('current-day');
                 }
 
-                if (selectedDeliveryDate && date.toDateString() === selectedDeliveryDate.toDateString()) {
-                    div.classList.add('selected-date');
+                if (selectedDeliveryDate && date.getTime() === selectedDeliveryDate.getTime()) {
+                    dayDiv.classList.add('selected-date');
                 }
+                calendarDaysContainer.appendChild(dayDiv);
+            }
 
-                calendarEl.appendChild(div);
+            if (selectedDeliveryDate) {
+                const month = (selectedDeliveryDate.getMonth() + 1).toString().padStart(2, '0');
+                const day = selectedDeliveryDate.getDate().toString().padStart(2, '0');
+                const year = selectedDeliveryDate.getFullYear();
+                deliveryDateInput.value = `${month}/${day}/${year}`;
+                displayTimeSlots();
+            } else {
+                deliveryDateInput.value = '';
+                displayTimeSlots();
             }
         }
 
-        function prevMonth() {
-            currentMonth--;
+        function changeMonth(delta) {
+            currentMonth += delta;
             if (currentMonth < 0) {
                 currentMonth = 11;
                 currentYear--;
-            }
-            renderCalendar();
-        }
-
-        function nextMonth() {
-            currentMonth++;
-            if (currentMonth > 11) {
+            } else if (currentMonth > 11) {
                 currentMonth = 0;
                 currentYear++;
             }
@@ -1234,7 +1311,7 @@
             todayNormalized.setHours(0, 0, 0, 0);
 
             if (date < todayNormalized) {
-                return; // Cannot select a past date
+                return;
             }
 
             const previouslySelected = document.querySelector('.calendar-days .selected-date');
@@ -1243,11 +1320,11 @@
             }
 
             selectedDeliveryDate = date;
-            selectedDeliveryTime = null; // Reset time when date changes
-            renderCalendar(); // Re-render to highlight the selected date and update the input
-            displayTimeSlots(); // This will also reset selectedDeliveryTime
-            document.getElementById('deliveryDate').classList.remove('error'); // Remove error on selection
-            document.querySelector('.date-picker-section').classList.remove('error'); // Remove error from section
+            selectedDeliveryTime = null;
+            renderCalendar();
+            displayTimeSlots();
+            document.getElementById('deliveryDate').classList.remove('error');
+            document.querySelector('.date-picker-section').classList.remove('error');
         }
 
         function displayTimeSlots() {
@@ -1277,7 +1354,7 @@
                     if (meridiem === 'PM' && hours !== 12) {
                         hours += 12;
                     }
-                    if (meridiem === 'AM' && hours === 12) { // Midnight case
+                    if (meridiem === 'AM' && hours === 12) {
                         hours = 0;
                     }
 
@@ -1289,7 +1366,6 @@
                         minutes
                     );
 
-                    // If it's today's date and the slot time is in the past
                     if (selectedDeliveryDate.toDateString() === now.toDateString() && slotDateTime < currentDateTime) {
                         timeDiv.classList.add('unavailable');
                     } else {
@@ -1323,7 +1399,7 @@
 
             selectedDeliveryTime = time;
             const newSelectedTimeSlot = Array.from(document.querySelectorAll('.time-slot'))
-                                                    .find(slotDiv => slotDiv.textContent === time);
+                                                .find(slotDiv => slotDiv.textContent === time);
             if (newSelectedTimeSlot) {
                 newSelectedTimeSlot.classList.add('selected-time');
             }
@@ -1338,7 +1414,6 @@
             timeZoneElement.textContent = `Asia/Manila (${formatManilaTime})`;
         }
 
-        // --- Order Type & Delivery/Pickup Logic ---
         function toggleOrderType() {
             const orderType = document.getElementById('orderType').value;
             const isDelivery = (orderType === 'delivery');
@@ -1363,7 +1438,7 @@
             pickupDetails.style.display = 'none';
             dateTimePickerContainer.style.display = 'none';
             if (deliveryDateTimeH3) deliveryDateTimeH3.style.display = 'none';
-            deliveryFee = 0; // Default to no delivery fee
+            deliveryFee = 0;
 
             selectedDeliveryDate = null;
             selectedDeliveryTime = null;
@@ -1383,16 +1458,12 @@
                 renderCalendar();
             } else if (orderType === 'pickup') {
                 pickupDetails.style.display = 'block';
-                // pickupLocation input is already readonly, can set required if needed
-                document.getElementById('pickupLocation').setAttribute('required', 'required');
             }
             updateCartDisplay();
         }
 
-        // --- Checkout & Validation ---
         function proceedToCheckout() {
             const orderForm = document.getElementById('orderForm');
-
             const selectedItems = products.filter(product => cart[product.id] > 0);
             if (selectedItems.length === 0) {
                 Swal.fire({
@@ -1402,13 +1473,12 @@
                     confirmButtonText: 'OK',
                     customClass: { confirmButton: 'swal-button' }
                 });
-                showMainTab('menu'); // Stay on the 'Browse Menu' tab
+                showMainTab('order');
                 return;
             }
 
             orderForm.style.display = 'block';
             orderForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            showMainTab('order'); // Ensure "Your Order" tab is active
         }
 
         let firstErrorField = null;
@@ -1444,9 +1514,8 @@
                 if (!selectedDeliveryTime) {
                     document.getElementById('timeSlots').classList.add('error');
                     document.querySelector('.time-picker-section').classList.add('error');
-                    // Prioritize date error if both date and time are missing
-                    if (!firstErrorField && document.querySelector('.date-picker-section').classList.contains('error')) {
-                        // If date is already the first error, no change needed
+                    if (!firstErrorField && selectedDeliveryDate) {
+                        firstErrorField = document.getElementById('timeSlots');
                     } else if (!firstErrorField) {
                         firstErrorField = document.getElementById('timeSlots');
                     }
@@ -1469,7 +1538,7 @@
                     customClass: { confirmButton: 'swal-button' }
                 });
                 isValid = false;
-                showMainTab('menu'); // Go back to the menu tab
+                document.getElementById('productCatalog').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
             if (!isValid && firstErrorField) {
@@ -1485,14 +1554,14 @@
             const section = sectionId ? document.getElementById(sectionId) : field;
             const value = field.value.trim();
 
-            if (field.hasAttribute('required') && (value === '' || (field.tagName === 'SELECT' && value === ''))) {
+            if (field.hasAttribute('required') && value === '' || (field.tagName === 'SELECT' && value === '')) {
                 field.classList.add('error');
-                if (section) section.classList.add('error');
+                section.classList.add('error');
                 if (!firstErrorField) firstErrorField = field;
                 isValid = false;
             } else {
                 field.classList.remove('error');
-                if (section) section.classList.remove('error');
+                section.classList.remove('error');
             }
         }
 
@@ -1540,37 +1609,41 @@
                 }
             });
 
-            if (typeof google === 'undefined' || typeof google.script === 'undefined') {
-                console.warn('google.script.run is not available. Simulating success handler.');
-                setTimeout(() => {
-                    Swal.close();
-                    showSuccessMessage('Order simulated successfully!', formData.paymentMethod, formData.orderType);
-                }, 2000);
-                return;
-            }
+            // Make sure your Apps Script is deployed as a web app and you use its URL here
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec';
 
-            google.script
-                .run
-                .withSuccessHandler(function (response) {
-                    Swal.close();
-                    showSuccessMessage(response, formData.paymentMethod, formData.orderType);
-                })
-                .withFailureHandler(function (error) {
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Order Failed!',
-                        text: 'There was an error submitting your order: ' + error.message,
-                        confirmButtonText: 'OK',
-                        customClass: { confirmButton: 'swal-button' }
-                    });
-                })
-                .submitOrder(formData);
+            fetch(scriptUrl + '?action=submitOrder', {
+                method: 'POST', // Use POST for submitting data
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(formData).toString() // URL-encode the form data
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text(); // Get response as text, as Apps Script usually returns plain text for success
+            })
+            .then(responseText => {
+                Swal.close();
+                showSuccessMessage(responseText, formData.paymentMethod, formData.orderType);
+            })
+            .catch(error => {
+                Swal.close();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Order Failed!',
+                    text: 'There was an error submitting your order: ' + error.message,
+                    confirmButtonText: 'OK',
+                    customClass: { confirmButton: 'swal-button' }
+                });
+            });
         }
 
         function showSuccessMessage(response, paymentMethod, orderType) {
             let paymentInstructionsHTML = '';
-            const gcashQrCodeSrc = "https://i.ibb.co/zWfVBnf/gcash-qr-placeholder.png"; // Placeholder for a GCash QR Code image
+            const gcashQrCodeSrc = "https://i.ibb.co/zWfVBnfD/image.png";
 
             if (paymentMethod === 'GCASH') {
                 paymentInstructionsHTML = `
@@ -1604,7 +1677,7 @@
                 confirmButtonText: 'Great!',
                 customClass: { confirmButton: 'swal-button' },
                 didClose: () => {
-                    document.getElementById('orderSubmissionForm').reset();
+                    document.getElementById('orderForm').reset();
                     cart = {};
                     updateCartDisplay();
                     renderProducts();
@@ -1618,13 +1691,13 @@
                     displayTimeSlots();
                     updateTimeZoneDisplay();
                     document.getElementById('orderForm').style.display = 'none';
-                    showMainTab('menu');
+                    showMainTab('order'); // Changed to 'order' to keep users on the order page after submission.
                 }
             });
         }
 
         function resetForm() {
-            document.getElementById('orderSubmissionForm').reset();
+            document.getElementById('orderForm').reset();
             selectedDeliveryDate = null;
             selectedDeliveryTime = null;
             document.getElementById('deliveryDate').value = '';
@@ -1636,11 +1709,7 @@
             selectedDeliveryFeeDisplay.textContent = '';
             selectedDeliveryFeeDisplay.style.display = 'none';
 
-            toggleOrderType(); // Call this to reset delivery/pickup sections correctly
-            updateCartDisplay(); // Refresh cart display to reflect fee changes
-            renderCalendar(); // Reset calendar to current month/year
-            displayTimeSlots(); // Clear time slots display
-            updateTimeZoneDisplay(); // Update current time zone display
+            toggleOrderType();
         }
 
         function clearCart() {
@@ -1649,27 +1718,22 @@
             renderProducts();
         }
 
-        // --- Delivery Locations Loading & Handling ---
+        // --- Delivery Locations Loading ---
         function loadDeliveryLocations() {
-            if (typeof google === 'undefined' || typeof google.script === 'undefined') {
-                console.warn('google.script.run is not available for delivery locations. Using dummy data.');
-                deliveryLocations = [
-                    { location: 'LAGUNA', fee: 50.00 },
-                    { location: 'ALABANG', fee: 100.00 },
-                    { location: 'MAKATI', fee: 150.00 },
-                    { location: 'QUEZON CITY', fee: 180.00 },
-                    { location: 'TAGUIG', fee: 120.00 }
-                ];
-                populateDeliveryLocationsDropdown();
-                return;
-            }
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec';
 
-            google.script.run
-                .withSuccessHandler(function(data) {
+            fetch(scriptUrl + '?action=getDeliveryLocations')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
                     deliveryLocations = data;
                     populateDeliveryLocationsDropdown();
                 })
-                .withFailureHandler(function(error) {
+                .catch(error => {
                     console.error('Failed to load delivery locations:', error.message);
                     Swal.fire({
                         icon: 'error',
@@ -1678,12 +1742,12 @@
                         confirmButtonText: 'OK',
                         customClass: { confirmButton: 'swal-button' }
                     });
-                    deliveryLocations = [];
+                    deliveryLocations = []; // Fallback to empty if data cannot be loaded
                     populateDeliveryLocationsDropdown();
-                })
-                .getDeliveryLocations();
+                });
         }
 
+        // --- Populate Delivery Locations Dropdown ---
         function populateDeliveryLocationsDropdown() {
             const selectElement = document.getElementById('shippingAddressSelect');
             selectElement.innerHTML = '<option value="">Select a delivery location</option>';
@@ -1695,9 +1759,10 @@
                 option.dataset.fee = loc.fee;
                 selectElement.appendChild(option);
             });
-            handleDeliveryLocationChange(); // Ensure initial fee is set/reset
+            handleDeliveryLocationChange();
         }
 
+        // --- Handle Delivery Location Change ---
         function handleDeliveryLocationChange() {
             const selectElement = document.getElementById('shippingAddressSelect');
             const selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -1716,17 +1781,6 @@
             selectElement.classList.remove('error');
             document.getElementById('deliveryDetails').classList.remove('error');
         }
-
-        // --- Initialize Application on Load ---
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts(); // Load products first
-            loadDeliveryLocations(); // Then load delivery locations
-            updateTimeZoneDisplay();
-            renderCalendar(); // Render initial calendar view
-            displayTimeSlots(); // Initialize time slots display
-            toggleOrderType(); // Initialize order type display
-            updateCartDisplay(); // Initialize cart display (will be empty)
-        });
     </script>
 </body>
 </html>
