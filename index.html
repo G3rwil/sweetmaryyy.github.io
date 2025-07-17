@@ -5,10 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sweet Mary's Order Form</title>
 
-  <!-- Font and Style -->
+  <!-- Fonts and Style -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
 :root {
     --primary-color: #ff6f61; /* A vibrant, sweet red/orange */
@@ -2016,7 +2019,8 @@ function handleDeliveryLocationChange() {
     selectElement.classList.remove('error'); // Remove error class on selection
     document.getElementById('deliveryDetails').classList.remove('error');
 }
-const scriptURL = "https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec";
+<script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec";
     const form = document.getElementById("orderForm");
 
     form.addEventListener("submit", e => {
@@ -2033,7 +2037,7 @@ const scriptURL = "https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1Jj
           console.error("Error!", error.message);
         });
     });
+  </script>
 
-    </script>
 </body>
 </html>
