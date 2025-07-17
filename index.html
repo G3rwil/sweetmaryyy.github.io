@@ -35,18 +35,28 @@
       margin-top: 20px;
       cursor: pointer;
     }
+    .fallback-link {
+      margin-top: 30px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
   <h1>Sweet Mary's Order Form</h1>
   <p>Thank you for visiting! Click below to place your order.</p>
+
   <button class="button" onclick="redirectToForm()">Go to Order Form</button>
-  <h1>Redirecting you to Sweet Mary's Order Form...</h1>
-  <p>If it doesn't open automatically, <a href="https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec">click here</a>.</p>
+
+  <div class="fallback-link">
+    <p>If it doesn't open automatically, 
+      <a href="https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec" target="_blank">
+        click here</a>.
+    </p>
+  </div>
 
   <script>
     function redirectToForm() {
-      window.location.replace("https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec");
+      window.location.href = "https://script.google.com/macros/s/AKfycbxir-g0G1Uok-19l1v1JjEofw35X5n4Y2hMVnesSJl7nDNmO4Z42IyDLXVfNWKb2t2y/exec";
     }
   </script>
 </body>
